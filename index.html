@@ -54,19 +54,22 @@
     .logo-text .brand { font-family: 'Playfair Display', serif; font-size: 20px; color: var(--yellow); }
     .logo-text .tagline { font-size: 10px; color: rgba(245,226,122,0.7); letter-spacing: 0.5px; }
 
-    header a.cta-header {
+    header .cta-header {
       background: var(--yellow);
       color: var(--navy);
-      font-weight: 600;
-      font-size: 13px;
-      padding: 10px 18px;
-      border-radius: 6px;
+      font-weight: 700;
+      font-size: 14px;
+      padding: 11px 22px;
+      border-radius: 8px;
       text-decoration: none;
       white-space: nowrap;
       cursor: pointer;
       border: none;
       font-family: 'Inter', sans-serif;
+      letter-spacing: 0.2px;
+      transition: background 0.15s;
     }
+    header .cta-header:hover { background: var(--yellow-dark); }
 
     /* ── HERO ── */
     .hero {
@@ -577,7 +580,7 @@
   <a href="#" class="logo-wrap">
     <img src="logo-full.png" alt="Bridge Finance — The Bridge To Your Home Loan Needs" style="height:46px; width:auto; border-radius:8px;" />
   </a>
-  <button onclick="openModal('general')" class="cta-header">📅 Book a Free Call</button>
+  <button onclick="openModal('general')" class="cta-header">Book a Free Call</button>
 </header>
 
 <!-- HERO -->
