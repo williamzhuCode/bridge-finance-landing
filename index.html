@@ -575,11 +575,7 @@
 <!-- HEADER -->
 <header>
   <a href="#" class="logo-wrap">
-    <img src="logo-icon.jpg" class="logo-svg" alt="Bridge Finance logo" style="border-radius:6px;" />
-    <div class="logo-text">
-      <span class="brand">Bridge Finance</span>
-      <span class="tagline">The Bridge To Your Home Loan Needs</span>
-    </div>
+    <img src="logo-full.png" alt="Bridge Finance — The Bridge To Your Home Loan Needs" style="height:46px; width:auto; border-radius:8px;" />
   </a>
   <button onclick="openModal('general')" class="cta-header">📅 Book a Free Call</button>
 </header>
@@ -603,23 +599,23 @@
 </section>
 
 <!-- STATS -->
-<div class="stats">
+<div class="stats" id="stats-section">
   <div class="stats-inner">
     <div class="stat-item">
-      <div class="stat-number">$500M+</div>
+      <div class="stat-number" id="stat-loans">$0M+</div>
       <div class="stat-label">Home loans settled</div>
     </div>
     <div class="stat-item">
-      <div class="stat-number">90+</div>
+      <div class="stat-number" id="stat-lenders">0+</div>
       <div class="stat-label">Lenders on panel</div>
     </div>
     <div class="stat-item">
-      <div class="stat-number">Top 50</div>
+      <div class="stat-number" id="stat-cba">Top 1</div>
       <div class="stat-label">CBA Mortgage Lenders (AU, 2024–25)</div>
     </div>
     <div class="stat-item">
-      <div class="stat-number">5★</div>
-      <div class="stat-label">Google rating</div>
+      <div class="stat-number" id="stat-stars" style="letter-spacing:3px;">★★★★★</div>
+      <div class="stat-label">5.0 Google Rating</div>
     </div>
   </div>
 </div>
@@ -823,32 +819,61 @@
       </div>
     </div>
 
+    <!-- PROPERTY REVIEW (dedicated flow) -->
+    <div id="modal-step-pr" style="display:none;">
+      <p class="modal-h2">🔍 Free Property Analysis</p>
+      <p class="modal-sub">Send me the addresses you'd like analysed. I'll come back to you with an honest assessment of what each property is actually worth — and whether the asking price makes sense.</p>
+      <div class="modal-field">
+        <label class="modal-label">Property address(es) *</label>
+        <textarea id="pr-addresses" class="modal-input" rows="5"
+          placeholder="e.g. 12 Smith St Paddington NSW 2021&#10;45 Jones Ave Chiswick NSW 2046&#10;&#10;Add as many as you like — one per line" style="resize:vertical;"></textarea>
+      </div>
+      <div class="modal-field">
+        <label class="modal-label">Your Name *</label>
+        <input id="pr-name" class="modal-input" type="text" placeholder="e.g. Sarah Chen" />
+      </div>
+      <div class="modal-field">
+        <label class="modal-label">Phone *</label>
+        <input id="pr-phone" class="modal-input" type="tel" placeholder="0400 000 000" />
+      </div>
+      <button class="modal-submit" onclick="submitPropertyReview()">Send for Analysis →</button>
+      <p class="modal-note">No obligation. I'll respond within 24 hours with my honest assessment.</p>
+    </div>
+
   </div>
 </div>
 
 <script>
+  /* ── MODAL ── */
   var _enquiryType = '';
 
+  function hideAllSteps() {
+    ['modal-step-1','modal-step-2','modal-step-3','modal-step-pr'].forEach(function(id) {
+      var el = document.getElementById(id);
+      if (el) el.style.display = 'none';
+    });
+  }
+
+  function showStep(n) {
+    hideAllSteps();
+    var el = document.getElementById('modal-step-' + n);
+    if (el) el.style.display = 'block';
+  }
+
   function openModal(type) {
-    var overlay = document.getElementById('modal-overlay');
-    overlay.classList.add('active');
+    document.getElementById('modal-overlay').classList.add('active');
     document.body.style.overflow = 'hidden';
-    showStep(1);
     if (type === 'property-review') {
-      nextStep('🔍 Free Property Review');
+      hideAllSteps();
+      document.getElementById('modal-step-pr').style.display = 'block';
+    } else {
+      showStep(1);
     }
   }
 
   function closeModal() {
     document.getElementById('modal-overlay').classList.remove('active');
     document.body.style.overflow = '';
-  }
-
-  function showStep(n) {
-    [1,2,3].forEach(function(i) {
-      var el = document.getElementById('modal-step-' + i);
-      if (el) el.style.display = (i === n) ? 'block' : 'none';
-    });
   }
 
   function nextStep(type) {
@@ -859,34 +884,82 @@
   }
 
   function submitEnquiry() {
-    var name = document.getElementById('modal-name').value.trim();
+    var name  = document.getElementById('modal-name').value.trim();
     var phone = document.getElementById('modal-phone').value.trim();
     var email = document.getElementById('modal-email').value.trim();
-    var message = document.getElementById('modal-message').value.trim();
-
-    if (!name || !phone) {
-      alert('Please fill in your name and phone number.');
-      return;
-    }
-
+    var msg   = document.getElementById('modal-message').value.trim();
+    if (!name || !phone) { alert('Please fill in your name and phone number.'); return; }
     var subject = encodeURIComponent('Bridge Finance Enquiry — ' + _enquiryType);
     var body = encodeURIComponent(
-      'Hi William,\n\n' +
-      'Enquiry Type: ' + _enquiryType + '\n\n' +
-      'Name: ' + name + '\n' +
-      'Phone: ' + phone + '\n' +
-      'Email: ' + (email || 'Not provided') + '\n\n' +
-      'Situation:\n' + (message || 'Not provided') + '\n\n' +
-      '---\nSent via bridge-finance landing page'
+      'Hi William,\n\nEnquiry Type: ' + _enquiryType + '\n\n' +
+      'Name: ' + name + '\nPhone: ' + phone + '\nEmail: ' + (email || 'Not provided') +
+      '\n\nSituation:\n' + (msg || 'Not provided') + '\n\n---\nSent via bridge-finance landing page'
     );
-
     window.open('mailto:williamzhu@bridge-finance.com.au?subject=' + subject + '&body=' + body, '_blank');
     showStep(3);
+  }
+
+  function submitPropertyReview() {
+    var addresses = document.getElementById('pr-addresses').value.trim();
+    var name      = document.getElementById('pr-name').value.trim();
+    var phone     = document.getElementById('pr-phone').value.trim();
+    if (!addresses || !name || !phone) { alert('Please fill in all required fields.'); return; }
+    var subject = encodeURIComponent('Free Property Analysis Request — ' + name);
+    var body = encodeURIComponent(
+      'Hi William,\n\n' + name + ' would like a free property analysis.\n\n' +
+      'Properties to analyse:\n' + addresses + '\n\nPhone: ' + phone +
+      '\n\n---\nSent via bridge-finance landing page'
+    );
+    window.open('mailto:williamzhu@bridge-finance.com.au?subject=' + subject + '&body=' + body, '_blank');
+    hideAllSteps();
+    document.getElementById('modal-step-3').style.display = 'block';
   }
 
   document.getElementById('modal-overlay').addEventListener('click', function(e) {
     if (e.target === this) closeModal();
   });
+
+  /* ── STATS COUNTER ANIMATION ── */
+  function easeOut(t) { return 1 - Math.pow(1 - t, 3); }
+
+  function animateCount(id, start, end, duration, fmt) {
+    var el = document.getElementById(id);
+    if (!el) return;
+    var startTime = null;
+    function step(now) {
+      if (!startTime) startTime = now;
+      var progress = Math.min((now - startTime) / duration, 1);
+      var value = Math.round(easeOut(progress) * (end - start) + start);
+      el.textContent = fmt(value, progress >= 1);
+      if (progress < 1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  }
+
+  var statsAnimated = false;
+  var statsObserver = new IntersectionObserver(function(entries) {
+    if (entries[0].isIntersecting && !statsAnimated) {
+      statsAnimated = true;
+      animateCount('stat-loans',   0, 500, 1800, function(v, done) { return '$' + v + 'M+'; });
+      animateCount('stat-lenders', 0, 90,  1500, function(v, done) { return v + '+'; });
+      animateCount('stat-cba',     1, 50,  1600, function(v, done) { return 'Top ' + v; });
+      /* Stars: animate in one by one */
+      var stars = ['', '★', '★★', '★★★', '★★★★', '★★★★★'];
+      var si = 0;
+      var starEl = document.getElementById('stat-stars');
+      if (starEl) {
+        starEl.textContent = '';
+        var starTimer = setInterval(function() {
+          si++;
+          starEl.textContent = stars[si];
+          if (si >= 5) clearInterval(starTimer);
+        }, 260);
+      }
+    }
+  }, { threshold: 0.4 });
+
+  var statsSection = document.getElementById('stats-section');
+  if (statsSection) statsObserver.observe(statsSection);
 </script>
 
 </body>
