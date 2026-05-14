@@ -1,0 +1,58 @@
+name: Update Google Reviews
+
+on:
+  schedule:
+    - cron: '0 14 * * *'   # Daily at midnight AEST (UTC 14:00 = AEST 00:00)
+  workflow_dispatch:         # Also allows manual trigger from GitHub Actions tab
+
+jobs:
+  update-reviews:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Fetch rating + review count from Google Places API
+        id: reviews
+        run: |
+          RESPONSE=$(curl -s \
+            "https://maps.googleapis.com/maps/api/place/findplacefromtext/json\
+?input=Bridge+Finance+Mortgage+Broker+Burwood+Sydney\
+&inputtype=textquery\
+&fields=place_id,rating,user_ratings_total\
+&key=${{ secrets.GOOGLE_PLACES_API_KEY }}")
+
+          echo "API response: $RESPONSE"
+
+          RATING=$(echo "$RESPONSE" | jq -r '.candidates[0].rating // "5.0"')
+          COUNT=$(echo "$RESPONSE"  | jq -r '.candidates[0].user_ratings_total // "63"')
+
+          # Ensure rating always has one decimal place (e.g. 5 → 5.0)
+          RATING=$(python3 -c "print(f'{float(\"$RATING\"):.1f}')")
+
+          echo "rating=$RATING" >> $GITHUB_OUTPUT
+          echo "count=$COUNT"   >> $GITHUB_OUTPUT
+
+      - name: Update HTML with fresh numbers
+        run: |
+          RATING="${{ steps.reviews.outputs.rating }}"
+          COUNT="${{ steps.reviews.outputs.count }}"
+
+          # Update stats strip label  (e.g. "5.0 · 63 Google Reviews ↗")
+          sed -i "s/[0-9]\+\.[0-9]\+ · [0-9]\+ Google Reviews ↗/$RATING · $COUNT Google Reviews ↗/g" index.html
+
+          # Update contact card value (e.g. "★★★★★ 5.0 · 63 Reviews")
+          sed -i "s/★★★★★ [0-9]\+\.[0-9]\+ · [0-9]\+ Reviews/★★★★★ $RATING · $COUNT Reviews/g" index.html
+
+          echo "Updated to: $RATING · $COUNT reviews"
+
+      - name: Commit and push if anything changed
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add index.html
+          git diff --staged --quiet && echo "No changes" || \
+            (git commit -m "Auto: Google Reviews → ${{ steps.reviews.outputs.count }} reviews" && git push)
