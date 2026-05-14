@@ -43,17 +43,6 @@
       text-decoration: none;
     }
 
-    .logo-svg { width: 44px; height: 36px; flex-shrink: 0; }
-
-    .logo-text {
-      display: flex;
-      flex-direction: column;
-      line-height: 1.1;
-    }
-
-    .logo-text .brand { font-family: 'Playfair Display', serif; font-size: 20px; color: var(--yellow); }
-    .logo-text .tagline { font-size: 10px; color: rgba(245,226,122,0.7); letter-spacing: 0.5px; }
-
     header .cta-header {
       background: var(--yellow);
       color: var(--navy);
@@ -179,9 +168,9 @@
       text-align: center;
     }
 
-    .stat-item {}
     .stat-number { font-family: 'Playfair Display', serif; font-size: 28px; color: var(--yellow); line-height: 1; }
     .stat-label { font-size: 11px; color: rgba(255,255,255,0.7); margin-top: 4px; letter-spacing: 0.3px; }
+    .stat-item--clickable { cursor: pointer; }
 
     /* ── SECTION ── */
     section { padding: 64px 24px; }
@@ -616,7 +605,7 @@
       <div class="stat-number" id="stat-cba">Top 1</div>
       <div class="stat-label">CBA Mortgage Lenders (AU, 2024–25)</div>
     </div>
-    <div class="stat-item" style="cursor:pointer;" onclick="window.open('https://share.google/m1QjzJF7WyIRvVscH','_blank')">
+    <div class="stat-item stat-item--clickable" onclick="window.open('https://share.google/m1QjzJF7WyIRvVscH','_blank')">
       <div class="stat-number" id="stat-stars" style="letter-spacing:3px;">★★★★★</div>
       <div class="stat-label">5.0 · 63 Google Reviews ↗</div>
     </div>
@@ -874,8 +863,7 @@
     document.getElementById('modal-overlay').classList.add('active');
     document.body.style.overflow = 'hidden';
     if (type === 'property-review') {
-      hideAllSteps();
-      document.getElementById('modal-step-pr').style.display = 'block';
+      showStep('pr');
     } else {
       showStep(1);
     }
@@ -921,8 +909,7 @@
       '\n\n---\nSent via bridge-finance landing page'
     );
     window.open('mailto:williamzhu@bridge-finance.com.au?subject=' + subject + '&body=' + body, '_blank');
-    hideAllSteps();
-    document.getElementById('modal-step-3').style.display = 'block';
+    showStep(3);
   }
 
   document.getElementById('modal-overlay').addEventListener('click', function(e) {
@@ -940,7 +927,7 @@
       if (!startTime) startTime = now;
       var progress = Math.min((now - startTime) / duration, 1);
       var value = Math.round(easeOut(progress) * (end - start) + start);
-      el.textContent = fmt(value, progress >= 1);
+      el.textContent = fmt(value);
       if (progress < 1) requestAnimationFrame(step);
     }
     requestAnimationFrame(step);
@@ -950,18 +937,17 @@
   var statsObserver = new IntersectionObserver(function(entries) {
     if (entries[0].isIntersecting && !statsAnimated) {
       statsAnimated = true;
-      animateCount('stat-loans',   0, 500, 1800, function(v, done) { return '$' + v + 'M+'; });
-      animateCount('stat-lenders', 0, 90,  1500, function(v, done) { return v + '+'; });
-      animateCount('stat-cba',     1, 50,  1600, function(v, done) { return 'Top ' + v; });
+      animateCount('stat-loans',   0, 500, 1800, function(v) { return '$' + v + 'M+'; });
+      animateCount('stat-lenders', 0, 90,  1500, function(v) { return v + '+'; });
+      animateCount('stat-cba',     1, 50,  1600, function(v) { return 'Top ' + v; });
       /* Stars: animate in one by one */
-      var stars = ['', '★', '★★', '★★★', '★★★★', '★★★★★'];
       var si = 0;
       var starEl = document.getElementById('stat-stars');
       if (starEl) {
         starEl.textContent = '';
         var starTimer = setInterval(function() {
           si++;
-          starEl.textContent = stars[si];
+          starEl.textContent = '★'.repeat(si);
           if (si >= 5) clearInterval(starTimer);
         }, 260);
       }
