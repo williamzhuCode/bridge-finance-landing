@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>William Zhu — Bridge Finance | Mortgage Broker Sydney</title>
+  <meta name="description" content="Sydney mortgage broker William Zhu. Free property advisory + the right home loan. 90+ lenders. Book a free strategy call." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy: #2D4070;
+      --yellow: #F5E27A;
+      --yellow-dark: #e8d05a;
+      --white: #ffffff;
+      --light-bg: #f9f7f0;
+      --text-dark: #1a1a2e;
+      --text-muted: #5a6075;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      color: var(--text-dark);
+      background: var(--white);
+      line-height: 1.6;
+    }
+
+    /* ── HEADER ── */
+    header {
+      background: var(--navy);
+      padding: 18px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .logo-wrap {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+    }
+
+    .logo-svg { width: 44px; height: 34px; flex-shrink: 0; }
+
+    .logo-text {
+      display: flex;
+      flex-direction: column;
+      line-height: 1.1;
+    }
+
+    .logo-text .brand { font-family: 'Playfair Display', serif; font-size: 20px; color: var(--yellow); }
+    .logo-text .tagline { font-size: 10px; color: rgba(245,226,122,0.7); letter-spacing: 0.5px; }
+
+    header a.cta-header {
+      background: var(--yellow);
+      color: var(--navy);
+      font-weight: 600;
+      font-size: 13px;
+      padding: 10px 18px;
+      border-radius: 6px;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+
+    /* ── HERO ── */
+    .hero {
+      background: var(--yellow);
+      padding: 60px 24px 0;
+      text-align: center;
+      overflow: hidden;
+    }
+
+    .hero-inner { max-width: 680px; margin: 0 auto; }
+
+    .hero-badge {
+      display: inline-block;
+      background: var(--navy);
+      color: var(--yellow);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      padding: 6px 14px;
+      border-radius: 20px;
+      margin-bottom: 20px;
+    }
+
+    .hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(30px, 6vw, 50px);
+      color: var(--navy);
+      line-height: 1.15;
+      margin-bottom: 18px;
+    }
+
+    .hero h1 span { display: block; }
+
+    .hero p {
+      font-size: 17px;
+      color: var(--navy);
+      opacity: 0.85;
+      max-width: 520px;
+      margin: 0 auto 32px;
+    }
+
+    .hero-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      justify-content: center;
+      margin-bottom: 40px;
+    }
+
+    .btn-primary {
+      background: var(--navy);
+      color: var(--yellow);
+      padding: 15px 28px;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 15px;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-secondary {
+      background: transparent;
+      color: var(--navy);
+      border: 2px solid var(--navy);
+      padding: 13px 24px;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 15px;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .hero-photo {
+      width: 220px;
+      height: 220px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 6px solid var(--navy);
+      display: block;
+      margin: 0 auto;
+    }
+
+    .hero-photo-placeholder {
+      width: 220px;
+      height: 220px;
+      border-radius: 50%;
+      background: var(--navy);
+      border: 6px solid var(--navy);
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      margin: 0 auto;
+      overflow: hidden;
+    }
+
+    /* ── STATS STRIP ── */
+    .stats {
+      background: var(--navy);
+      padding: 28px 24px;
+    }
+
+    .stats-inner {
+      max-width: 800px;
+      margin: 0 auto;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-around;
+      gap: 20px;
+      text-align: center;
+    }
+
+    .stat-item {}
+    .stat-number { font-family: 'Playfair Display', serif; font-size: 32px; color: var(--yellow); line-height: 1; }
+    .stat-label { font-size: 12px; color: rgba(255,255,255,0.7); margin-top: 4px; letter-spacing: 0.3px; }
+
+    /* ── SECTION ── */
+    section { padding: 64px 24px; }
+
+    .section-inner { max-width: 800px; margin: 0 auto; }
+
+    .section-label {
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--navy);
+      opacity: 0.5;
+      margin-bottom: 10px;
+    }
+
+    h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(26px, 5vw, 38px);
+      color: var(--navy);
+      line-height: 1.2;
+      margin-bottom: 16px;
+    }
+
+    .section-sub {
+      font-size: 16px;
+      color: var(--text-muted);
+      max-width: 580px;
+      margin-bottom: 40px;
+    }
+
+    /* ── OFFERINGS ── */
+    .offerings { background: var(--light-bg); }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+    }
+
+    .card {
+      background: var(--white);
+      border-radius: 12px;
+      padding: 28px 24px;
+      border-top: 4px solid var(--yellow);
+    }
+
+    .card-icon { font-size: 28px; margin-bottom: 14px; }
+    .card h3 { font-size: 17px; font-weight: 600; color: var(--navy); margin-bottom: 10px; }
+    .card p { font-size: 14px; color: var(--text-muted); line-height: 1.6; }
+
+    /* ── FREE PROPERTY ADVISORY ── */
+    .advisory { background: var(--navy); }
+    .advisory h2, .advisory .section-label { color: var(--yellow); }
+    .advisory .section-label { opacity: 0.7; }
+    .advisory .section-sub { color: rgba(255,255,255,0.75); }
+
+    .advisory-list {
+      list-style: none;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 16px;
+      margin-bottom: 36px;
+    }
+
+    .advisory-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      color: var(--white);
+      font-size: 15px;
+    }
+
+    .advisory-list li::before {
+      content: '';
+      width: 22px;
+      height: 22px;
+      min-width: 22px;
+      background: var(--yellow);
+      border-radius: 50%;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%232D4070' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'%3E%3C/polyline%3E%3C/svg%3E");
+      background-size: 14px;
+      background-repeat: no-repeat;
+      background-position: center;
+      margin-top: 2px;
+    }
+
+    .advisory .btn-primary { background: var(--yellow); color: var(--navy); }
+
+    /* ── ABOUT ── */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px;
+      align-items: center;
+    }
+
+    @media (max-width: 600px) {
+      .about-grid { grid-template-columns: 1fr; }
+      .about-photo-wrap { order: -1; }
+    }
+
+    .about-photo-wrap {
+      position: relative;
+    }
+
+    .about-photo-bg {
+      background: var(--yellow);
+      border-radius: 16px;
+      padding: 20px 20px 0;
+      overflow: hidden;
+      min-height: 320px;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+    }
+
+    .about-photo {
+      width: 100%;
+      max-width: 260px;
+      display: block;
+    }
+
+    .about-badge {
+      position: absolute;
+      bottom: 16px;
+      left: -12px;
+      background: var(--navy);
+      color: var(--white);
+      padding: 10px 16px;
+      border-radius: 10px;
+      font-size: 13px;
+      font-weight: 600;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    }
+
+    .about-badge span { color: var(--yellow); }
+
+    .about-content p {
+      font-size: 15px;
+      color: var(--text-muted);
+      margin-bottom: 14px;
+      line-height: 1.7;
+    }
+
+    .about-content strong { color: var(--navy); }
+
+    .about-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 20px;
+    }
+
+    .tag {
+      background: var(--light-bg);
+      color: var(--navy);
+      font-size: 12px;
+      font-weight: 600;
+      padding: 6px 12px;
+      border-radius: 20px;
+    }
+
+    /* ── CONTACT ── */
+    .contact { background: var(--light-bg); }
+
+    .contact-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+      margin-bottom: 36px;
+    }
+
+    .contact-card {
+      background: var(--white);
+      border-radius: 12px;
+      padding: 24px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      text-decoration: none;
+      border: 2px solid transparent;
+      transition: border-color 0.2s;
+    }
+
+    .contact-card:hover { border-color: var(--yellow); }
+
+    .contact-icon {
+      width: 44px;
+      height: 44px;
+      background: var(--yellow);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      flex-shrink: 0;
+    }
+
+    .contact-card-text { }
+    .contact-card-label { font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted); font-weight: 600; }
+    .contact-card-value { font-size: 14px; font-weight: 600; color: var(--navy); margin-top: 2px; }
+
+    /* ── FRIDAY REVIEWS CTA ── */
+    .friday-cta {
+      background: var(--yellow);
+      border-radius: 16px;
+      padding: 36px 32px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .friday-cta-text h3 { font-family: 'Playfair Display', serif; font-size: 24px; color: var(--navy); margin-bottom: 6px; }
+    .friday-cta-text p { font-size: 15px; color: var(--navy); opacity: 0.8; }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--navy);
+      padding: 32px 24px;
+      text-align: center;
+    }
+
+    .footer-inner { max-width: 600px; margin: 0 auto; }
+    .footer-logo { margin-bottom: 16px; display: flex; align-items: center; justify-content: center; gap: 10px; }
+    .footer-logo .brand { font-family: 'Playfair Display', serif; font-size: 20px; color: var(--yellow); }
+
+    footer p {
+      font-size: 12px;
+      color: rgba(255,255,255,0.45);
+      margin-top: 8px;
+      line-height: 1.6;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 480px) {
+      .hero-buttons { flex-direction: column; align-items: center; }
+      .btn-primary, .btn-secondary { width: 100%; justify-content: center; }
+      .friday-cta { flex-direction: column; text-align: center; }
+      .friday-cta .btn-primary { width: 100%; justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <a href="#" class="logo-wrap">
+    <!-- Bridge Finance arch logo recreated as SVG -->
+    <svg class="logo-svg" viewBox="0 0 88 68" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M8 58 C8 30, 36 8, 52 8 C36 8, 8 30, 8 58Z" fill="#F5E27A"/>
+      <path d="M20 58 C22 34, 46 12, 80 18 C46 12, 22 34, 20 58Z" fill="#F5E27A"/>
+      <path fill-rule="evenodd" clip-rule="evenodd"
+        d="M44 4C22 4 4 22 4 44C4 52 6.5 59.4 11 65H21C15.5 59.8 12 52.3 12 44C12 26.3 26.3 12 44 12C61.7 12 76 26.3 76 44C76 52.3 72.5 59.8 67 65H77C81.5 59.4 84 52 84 44C84 22 66 4 44 4Z"
+        fill="#F5E27A" opacity="0"/>
+      <!-- Simplified bridge arch marks -->
+      <path d="M6 60 Q18 20 50 14 Q26 16 12 60Z" fill="#F5E27A"/>
+      <path d="M20 60 Q38 16 80 22 Q50 14 26 60Z" fill="#F5E27A"/>
+    </svg>
+    <div class="logo-text">
+      <span class="brand">Bridge Finance</span>
+      <span class="tagline">The Bridge To Your Home Loan Needs</span>
+    </div>
+  </a>
+  <a href="tel:0492949169" class="cta-header">📞 Call Now</a>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-inner">
+    <span class="hero-badge">Sydney Mortgage Broker</span>
+    <h1>
+      <span>The Right Property.</span>
+      <span>The Right Home Loan.</span>
+    </h1>
+    <p>Builder turned broker. I combine 5 years in construction with 8 years in lending — and give every client <strong>free, independent property advice</strong> alongside their home loan.</p>
+    <div class="hero-buttons">
+      <a href="mailto:williamzhu@bridge-finance.com.au?subject=Free Strategy Call Request" class="btn-primary">📅 Book a Free Call</a>
+      <a href="mailto:williamzhu@bridge-finance.com.au?subject=Free Property Review Request" class="btn-secondary">🏡 Free Property Review</a>
+    </div>
+    <!-- Placeholder for William's photo — replace src with actual photo URL -->
+    <div class="hero-photo-placeholder">
+      <svg width="160" height="200" viewBox="0 0 160 200" fill="none">
+        <ellipse cx="80" cy="75" rx="38" ry="42" fill="#F5E27A" opacity="0.3"/>
+        <ellipse cx="80" cy="170" rx="65" ry="50" fill="#F5E27A" opacity="0.2"/>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<div class="stats">
+  <div class="stats-inner">
+    <div class="stat-item">
+      <div class="stat-number">$500M+</div>
+      <div class="stat-label">Home loans settled</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-number">90+</div>
+      <div class="stat-label">Lenders on panel</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-number">8 yrs</div>
+      <div class="stat-label">In lending</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-number">5★</div>
+      <div class="stat-label">Google rating</div>
+    </div>
+  </div>
+</div>
+
+<!-- OFFERINGS -->
+<section class="offerings">
+  <div class="section-inner">
+    <p class="section-label">What We Do</p>
+    <h2>One conversation. Everything covered.</h2>
+    <p class="section-sub">Most brokers just find you a loan. We find you the right property AND the right loan — because one without the other isn't enough.</p>
+    <div class="cards">
+      <div class="card">
+        <div class="card-icon">🏠</div>
+        <h3>First Home Buyers</h3>
+        <p>Grants, schemes, deposit strategies. We explain every option and help you buy with confidence — from 2% deposit via Help to Buy to the First Home Guarantee.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">📈</div>
+        <h3>Property Investors</h3>
+        <p>Portfolio finance, tax-smart structure, new build vs established advice post the 2026 budget changes. Strategy first, loan second.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">💰</div>
+        <h3>Refinancing</h3>
+        <p>Free rate review across 90+ lenders. If you're paying the loyalty tax, we'll find the saving — and handle the entire switch for you.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">🔍</div>
+        <h3>Free Property Advisory</h3>
+        <p>What it's worth. What the agent won't tell you. Whether you should make an offer. This comes free with every Bridge Finance client.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FREE PROPERTY ADVISORY -->
+<section class="advisory">
+  <div class="section-inner">
+    <p class="section-label">Our Difference</p>
+    <h2>Free property advice.<br/>Not everyone offers this.</h2>
+    <p class="section-sub">Before I was a broker I spent 5 years in construction — duplexes, knock-down rebuilds, DA applications across Hunters Hill, Paddington, Chiswick and Burwood. I know what a good property looks like from the inside out. We give every client this analysis, free.</p>
+    <ul class="advisory-list">
+      <li>What the property is actually worth (not what the agent says)</li>
+      <li>Comparable sales analysis to justify the price</li>
+      <li>Whether the property aligns with your goals</li>
+      <li>Negotiation guidance — how much to offer and how</li>
+      <li>Development potential and zoning assessment</li>
+      <li>Honest view on whether you should walk away</li>
+    </ul>
+    <a href="mailto:williamzhu@bridge-finance.com.au?subject=Free Property Review" class="btn-primary">Get Your Free Property Review →</a>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section>
+  <div class="section-inner">
+    <div class="about-grid">
+      <div class="about-content">
+        <p class="section-label">About William</p>
+        <h2>Builder. Banker. Broker.</h2>
+        <p>I started in construction — <strong>5 years</strong> building duplexes, doing knock-down rebuilds, applying for DAs, and flipping properties across some of Sydney's most competitive suburbs.</p>
+        <p>Then I moved into lending. <strong>8 years, $500M+ in home loans settled.</strong> First home buyers, investors, doctors, high-net-worth clients — I've helped them all.</p>
+        <p>I started Bridge Finance because I saw a gap: brokers were great at loans but nobody was helping clients figure out whether they were buying the right property at the right price. So we do both.</p>
+        <div class="about-tags">
+          <span class="tag">MFAA Member</span>
+          <span class="tag">Credit Rep No. 567817</span>
+          <span class="tag">Sydney-wide</span>
+          <span class="tag">Australia-wide</span>
+          <span class="tag">90+ lenders</span>
+        </div>
+      </div>
+      <div class="about-photo-wrap">
+        <div class="about-photo-bg">
+          <!-- Placeholder — swap with: <img src="william-photo.jpg" class="about-photo" alt="William Zhu"> -->
+          <svg width="220" height="280" viewBox="0 0 220 280" fill="none">
+            <ellipse cx="110" cy="90" rx="55" ry="62" fill="#2D4070" opacity="0.2"/>
+            <ellipse cx="110" cy="240" rx="90" ry="65" fill="#2D4070" opacity="0.15"/>
+            <text x="110" y="145" text-anchor="middle" fill="#2D4070" font-size="13" font-family="Inter" opacity="0.5">Add your photo here</text>
+          </svg>
+        </div>
+        <div class="about-badge">📞 <span>0492 949 169</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FRIDAY PROPERTY REVIEWS -->
+<section style="background: var(--light-bg); padding-top: 0;">
+  <div class="section-inner">
+    <div class="friday-cta">
+      <div class="friday-cta-text">
+        <h3>🏡 Friday Property Reviews</h3>
+        <p>Every Friday I review a real property — no listed price. I run the comps, find the real value, and show you how to negotiate. Follow along on TikTok & Instagram.</p>
+      </div>
+      <a href="https://www.tiktok.com/@williamzhufinance" target="_blank" class="btn-primary">Watch on TikTok →</a>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact">
+  <div class="section-inner">
+    <p class="section-label">Get In Touch</p>
+    <h2>Let's talk about your goals.</h2>
+    <p class="section-sub">Free initial consultation. No obligation. I compare 90+ lenders and give you honest advice — not a sales pitch.</p>
+    <div class="contact-grid">
+      <a href="tel:0492949169" class="contact-card">
+        <div class="contact-icon">📞</div>
+        <div class="contact-card-text">
+          <div class="contact-card-label">Call or Text</div>
+          <div class="contact-card-value">0492 949 169</div>
+        </div>
+      </a>
+      <a href="mailto:williamzhu@bridge-finance.com.au" class="contact-card">
+        <div class="contact-icon">✉️</div>
+        <div class="contact-card-text">
+          <div class="contact-card-label">Email</div>
+          <div class="contact-card-value">williamzhu@bridge-finance.com.au</div>
+        </div>
+      </a>
+      <a href="https://www.bridge-finance.com.au" class="contact-card" target="_blank">
+        <div class="contact-icon">🌐</div>
+        <div class="contact-card-text">
+          <div class="contact-card-label">Website</div>
+          <div class="contact-card-value">bridge-finance.com.au</div>
+        </div>
+      </a>
+      <a href="https://www.instagram.com/williamzhu.broker" class="contact-card" target="_blank">
+        <div class="contact-icon">📸</div>
+        <div class="contact-card-text">
+          <div class="contact-card-label">Instagram</div>
+          <div class="contact-card-value">@williamzhu.broker</div>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-logo">
+      <svg width="32" height="26" viewBox="0 0 88 68" fill="none">
+        <path d="M6 60 Q18 20 50 14 Q26 16 12 60Z" fill="#F5E27A"/>
+        <path d="M20 60 Q38 16 80 22 Q50 14 26 60Z" fill="#F5E27A"/>
+      </svg>
+      <span class="brand">Bridge Finance</span>
+    </div>
+    <p>William Zhu | Executive Mortgage Broker & Director<br/>
+    Credit Rep No. 567817 | MFAA Member<br/><br/>
+    This page provides general information only and does not constitute financial advice.<br/>
+    Credit criteria and conditions apply. © 2026 Bridge Finance.</p>
+  </div>
+</footer>
+
+</body>
+</html>
