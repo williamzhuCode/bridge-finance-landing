@@ -43,7 +43,7 @@
       text-decoration: none;
     }
 
-    .logo-svg { width: 44px; height: 34px; flex-shrink: 0; }
+    .logo-svg { width: 44px; height: 36px; flex-shrink: 0; }
 
     .logo-text {
       display: flex;
@@ -63,6 +63,9 @@
       border-radius: 6px;
       text-decoration: none;
       white-space: nowrap;
+      cursor: pointer;
+      border: none;
+      font-family: 'Inter', sans-serif;
     }
 
     /* ── HERO ── */
@@ -125,6 +128,9 @@
       display: inline-flex;
       align-items: center;
       gap: 8px;
+      border: none;
+      cursor: pointer;
+      font-family: 'Inter', sans-serif;
     }
 
     .btn-secondary {
@@ -139,29 +145,19 @@
       display: inline-flex;
       align-items: center;
       gap: 8px;
+      cursor: pointer;
+      font-family: 'Inter', sans-serif;
     }
 
     .hero-photo {
-      width: 220px;
-      height: 220px;
+      width: 240px;
+      height: 240px;
       border-radius: 50%;
       object-fit: cover;
+      object-position: top center;
       border: 6px solid var(--navy);
       display: block;
       margin: 0 auto;
-    }
-
-    .hero-photo-placeholder {
-      width: 220px;
-      height: 220px;
-      border-radius: 50%;
-      background: var(--navy);
-      border: 6px solid var(--navy);
-      display: flex;
-      align-items: flex-end;
-      justify-content: center;
-      margin: 0 auto;
-      overflow: hidden;
     }
 
     /* ── STATS STRIP ── */
@@ -171,7 +167,7 @@
     }
 
     .stats-inner {
-      max-width: 800px;
+      max-width: 900px;
       margin: 0 auto;
       display: flex;
       flex-wrap: wrap;
@@ -181,8 +177,8 @@
     }
 
     .stat-item {}
-    .stat-number { font-family: 'Playfair Display', serif; font-size: 32px; color: var(--yellow); line-height: 1; }
-    .stat-label { font-size: 12px; color: rgba(255,255,255,0.7); margin-top: 4px; letter-spacing: 0.3px; }
+    .stat-number { font-family: 'Playfair Display', serif; font-size: 28px; color: var(--yellow); line-height: 1; }
+    .stat-label { font-size: 11px; color: rgba(255,255,255,0.7); margin-top: 4px; letter-spacing: 0.3px; }
 
     /* ── SECTION ── */
     section { padding: 64px 24px; }
@@ -285,14 +281,11 @@
       .about-photo-wrap { order: -1; }
     }
 
-    .about-photo-wrap {
-      position: relative;
-    }
+    .about-photo-wrap { position: relative; }
 
     .about-photo-bg {
       background: var(--yellow);
       border-radius: 16px;
-      padding: 20px 20px 0;
       overflow: hidden;
       min-height: 320px;
       display: flex;
@@ -302,8 +295,10 @@
 
     .about-photo {
       width: 100%;
-      max-width: 260px;
+      max-width: 280px;
       display: block;
+      object-fit: cover;
+      object-position: top center;
     }
 
     .about-badge {
@@ -339,6 +334,15 @@
 
     .tag {
       background: var(--light-bg);
+      color: var(--navy);
+      font-size: 12px;
+      font-weight: 600;
+      padding: 6px 12px;
+      border-radius: 20px;
+    }
+
+    .tag-highlight {
+      background: var(--yellow);
       color: var(--navy);
       font-size: 12px;
       font-weight: 600;
@@ -382,7 +386,6 @@
       flex-shrink: 0;
     }
 
-    .contact-card-text { }
     .contact-card-label { font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted); font-weight: 600; }
     .contact-card-value { font-size: 14px; font-weight: 600; color: var(--navy); margin-top: 2px; }
 
@@ -426,6 +429,145 @@
       .friday-cta { flex-direction: column; text-align: center; }
       .friday-cta .btn-primary { width: 100%; justify-content: center; }
     }
+
+    /* ── ENQUIRY MODAL ── */
+    #modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(45,64,112,0.90);
+      z-index: 999;
+      padding: 20px;
+      overflow-y: auto;
+      align-items: flex-start;
+      justify-content: center;
+    }
+    #modal-overlay.active { display: flex; }
+
+    .modal-box {
+      background: #fff;
+      border-radius: 20px;
+      padding: 40px;
+      max-width: 520px;
+      width: 100%;
+      margin: auto;
+      position: relative;
+    }
+
+    @media (max-width: 480px) { .modal-box { padding: 28px 20px; } }
+
+    .modal-close {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      background: none;
+      border: none;
+      font-size: 22px;
+      cursor: pointer;
+      color: var(--text-muted);
+      line-height: 1;
+      padding: 4px 8px;
+    }
+    .modal-close:hover { color: var(--navy); }
+
+    .modal-h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 26px;
+      color: var(--navy);
+      margin-bottom: 8px;
+    }
+
+    .modal-sub {
+      font-size: 15px;
+      color: var(--text-muted);
+      margin-bottom: 24px;
+    }
+
+    .modal-options { display: grid; gap: 12px; }
+
+    .modal-option {
+      width: 100%;
+      background: var(--light-bg);
+      border: 2px solid #e8e8f0;
+      border-radius: 12px;
+      padding: 16px 20px;
+      text-align: left;
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--navy);
+      cursor: pointer;
+      transition: all 0.15s;
+      font-family: 'Inter', sans-serif;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .modal-option:hover { border-color: var(--navy); background: #edf0f8; }
+
+    .modal-badge {
+      display: inline-block;
+      background: var(--yellow);
+      color: var(--navy);
+      padding: 5px 14px;
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 20px;
+    }
+
+    .modal-field { margin-bottom: 16px; }
+
+    .modal-label {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--navy);
+      display: block;
+      margin-bottom: 6px;
+    }
+
+    .modal-input {
+      width: 100%;
+      border: 2px solid #e8e8f0;
+      border-radius: 8px;
+      padding: 12px 14px;
+      font-size: 15px;
+      outline: none;
+      font-family: 'Inter', sans-serif;
+      color: var(--text-dark);
+      transition: border-color 0.15s;
+      background: #fff;
+    }
+    .modal-input:focus { border-color: var(--navy); }
+
+    .modal-submit {
+      width: 100%;
+      background: var(--navy);
+      color: var(--yellow);
+      border: none;
+      padding: 16px;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 8px;
+      font-family: 'Inter', sans-serif;
+      transition: background 0.15s;
+    }
+    .modal-submit:hover { background: #3a5290; }
+
+    .modal-note {
+      font-size: 12px;
+      color: var(--text-muted);
+      text-align: center;
+      margin-top: 12px;
+    }
+
+    .modal-thankyou {
+      text-align: center;
+      padding: 20px 0;
+    }
+
+    .modal-thankyou .big-icon { font-size: 56px; margin-bottom: 16px; }
   </style>
 </head>
 <body>
@@ -433,23 +575,19 @@
 <!-- HEADER -->
 <header>
   <a href="#" class="logo-wrap">
-    <!-- Bridge Finance arch logo recreated as SVG -->
-    <svg class="logo-svg" viewBox="0 0 88 68" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M8 58 C8 30, 36 8, 52 8 C36 8, 8 30, 8 58Z" fill="#F5E27A"/>
-      <path d="M20 58 C22 34, 46 12, 80 18 C46 12, 22 34, 20 58Z" fill="#F5E27A"/>
-      <path fill-rule="evenodd" clip-rule="evenodd"
-        d="M44 4C22 4 4 22 4 44C4 52 6.5 59.4 11 65H21C15.5 59.8 12 52.3 12 44C12 26.3 26.3 12 44 12C61.7 12 76 26.3 76 44C76 52.3 72.5 59.8 67 65H77C81.5 59.4 84 52 84 44C84 22 66 4 44 4Z"
-        fill="#F5E27A" opacity="0"/>
-      <!-- Simplified bridge arch marks -->
-      <path d="M6 60 Q18 20 50 14 Q26 16 12 60Z" fill="#F5E27A"/>
-      <path d="M20 60 Q38 16 80 22 Q50 14 26 60Z" fill="#F5E27A"/>
+    <!-- Bridge Finance logo: two overlapping arch shapes (accurate recreation) -->
+    <svg class="logo-svg" viewBox="0 0 64 52" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <!-- Right (larger) arch -->
+      <path fill="#F5E27A" d="M 18,50 C 16,50 10,28 40,8 C 44,6 50,8 48,13 C 30,17 26,36 24,50 Z"/>
+      <!-- Left (smaller) arch — in front -->
+      <path fill="#F5E27A" d="M 2,50 C 0,50 -2,30 24,12 C 28,10 34,12 32,17 C 16,22 10,38 8,50 Z"/>
     </svg>
     <div class="logo-text">
       <span class="brand">Bridge Finance</span>
       <span class="tagline">The Bridge To Your Home Loan Needs</span>
     </div>
   </a>
-  <a href="tel:0492949169" class="cta-header">📞 Call Now</a>
+  <button onclick="openModal('general')" class="cta-header">📅 Book a Free Call</button>
 </header>
 
 <!-- HERO -->
@@ -460,12 +598,13 @@
       <span>The Right Property.</span>
       <span>The Right Home Loan.</span>
     </h1>
-    <p>Builder turned broker. I combine 5 years in construction with 8 years in lending — and give every client <strong>free, independent property advice</strong> alongside their home loan.</p>
+    <p>Builder and banker turned broker. I combine 5 years in construction with 8 years in lending — and give every client <strong>free, independent property advice</strong> alongside their home loan.</p>
     <div class="hero-buttons">
-      <a href="mailto:williamzhu@bridge-finance.com.au?subject=Free Strategy Call Request" class="btn-primary">📅 Book a Free Call</a>
-      <a href="mailto:williamzhu@bridge-finance.com.au?subject=Free Property Review Request" class="btn-secondary">🏡 Free Property Review</a>
+      <button onclick="openModal('general')" class="btn-primary">📅 Book a Free Call</button>
+      <button onclick="openModal('property-review')" class="btn-secondary">🏡 Free Property Review</button>
     </div>
-    <img src="william.png" class="hero-photo" alt="William Zhu — Executive Mortgage Broker, Bridge Finance" />
+    <img src="william.png" class="hero-photo" alt="William Zhu — Executive Mortgage Broker, Bridge Finance"
+      onerror="this.style.display='none'" />
   </div>
 </section>
 
@@ -481,8 +620,8 @@
       <div class="stat-label">Lenders on panel</div>
     </div>
     <div class="stat-item">
-      <div class="stat-number">8 yrs</div>
-      <div class="stat-label">In lending</div>
+      <div class="stat-number">Top 50</div>
+      <div class="stat-label">CBA Mortgage Lenders (AU, 2024–25)</div>
     </div>
     <div class="stat-item">
       <div class="stat-number">5★</div>
@@ -527,7 +666,7 @@
   <div class="section-inner">
     <p class="section-label">Our Difference</p>
     <h2>Free property advice.<br/>Not everyone offers this.</h2>
-    <p class="section-sub">Before I was a broker I spent 5 years in construction — duplexes, knock-down rebuilds, DA applications across Hunters Hill, Paddington, Chiswick and Burwood. I know what a good property looks like from the inside out. We give every client this analysis, free.</p>
+    <p class="section-sub">I spent years in construction — building duplexes, knock-down rebuilds, DA applications across Hunters Hill, Paddington, Chiswick and Burwood. I know what a good property looks like from the inside out. Every Bridge Finance client gets this analysis, free.</p>
     <ul class="advisory-list">
       <li>What the property is actually worth (not what the agent says)</li>
       <li>Comparable sales analysis to justify the price</li>
@@ -536,7 +675,7 @@
       <li>Development potential and zoning assessment</li>
       <li>Honest view on whether you should walk away</li>
     </ul>
-    <a href="mailto:williamzhu@bridge-finance.com.au?subject=Free Property Review" class="btn-primary">Get Your Free Property Review →</a>
+    <button onclick="openModal('property-review')" class="btn-primary">Get Your Free Property Review →</button>
   </div>
 </section>
 
@@ -547,10 +686,11 @@
       <div class="about-content">
         <p class="section-label">About William</p>
         <h2>Builder. Banker. Broker.</h2>
-        <p>I started in construction — <strong>5 years</strong> building duplexes, doing knock-down rebuilds, applying for DAs, and flipping properties across some of Sydney's most competitive suburbs.</p>
-        <p>Then I moved into lending. <strong>8 years, $500M+ in home loans settled.</strong> First home buyers, investors, doctors, high-net-worth clients — I've helped them all.</p>
-        <p>I started Bridge Finance because I saw a gap: brokers were great at loans but nobody was helping clients figure out whether they were buying the right property at the right price. So we do both.</p>
+        <p>For 5 years I ran my family's construction business — building duplexes, knock-down rebuilds, DA applications across Hunters Hill, Paddington, Chiswick and Burwood — <strong>while simultaneously</strong> working as a Lending Executive at Commonwealth Bank.</p>
+        <p>During my time at CBA, I was ranked in the <strong>Top 50 Mortgage Lenders across Australia</strong> (2024–2025), settling over <strong>$500M+ in home loans</strong> for everyone from first home buyers to doctors and high-net-worth clients.</p>
+        <p>I started Bridge Finance to close the gap nobody else was filling: helping clients figure out whether they're buying the right property at the right price — alongside the right loan.</p>
         <div class="about-tags">
+          <span class="tag-highlight">🏆 Top 50 CBA Lender (AU, 2024–25)</span>
           <span class="tag">MFAA Member</span>
           <span class="tag">Credit Rep No. 567817</span>
           <span class="tag">Sydney-wide</span>
@@ -560,7 +700,8 @@
       </div>
       <div class="about-photo-wrap">
         <div class="about-photo-bg">
-          <img src="william.png" class="about-photo" alt="William Zhu — Bridge Finance" />
+          <img src="william.png" class="about-photo" alt="William Zhu — Bridge Finance"
+            onerror="this.style.display='none'" />
         </div>
         <div class="about-badge">📞 <span>0492 949 169</span></div>
       </div>
@@ -602,18 +743,18 @@
           <div class="contact-card-value">williamzhu@bridge-finance.com.au</div>
         </div>
       </a>
-      <a href="https://www.bridge-finance.com.au" class="contact-card" target="_blank">
-        <div class="contact-icon">🌐</div>
-        <div class="contact-card-text">
-          <div class="contact-card-label">Website</div>
-          <div class="contact-card-value">bridge-finance.com.au</div>
-        </div>
-      </a>
       <a href="https://www.instagram.com/williamzhu.broker" class="contact-card" target="_blank">
         <div class="contact-icon">📸</div>
         <div class="contact-card-text">
           <div class="contact-card-label">Instagram</div>
           <div class="contact-card-value">@williamzhu.broker</div>
+        </div>
+      </a>
+      <a href="https://www.tiktok.com/@williamzhufinance" class="contact-card" target="_blank">
+        <div class="contact-icon">🎬</div>
+        <div class="contact-card-text">
+          <div class="contact-card-label">TikTok</div>
+          <div class="contact-card-value">@williamzhufinance</div>
         </div>
       </a>
     </div>
@@ -624,9 +765,9 @@
 <footer>
   <div class="footer-inner">
     <div class="footer-logo">
-      <svg width="32" height="26" viewBox="0 0 88 68" fill="none">
-        <path d="M6 60 Q18 20 50 14 Q26 16 12 60Z" fill="#F5E27A"/>
-        <path d="M20 60 Q38 16 80 22 Q50 14 26 60Z" fill="#F5E27A"/>
+      <svg width="30" height="24" viewBox="0 0 64 52" fill="none">
+        <path fill="#F5E27A" d="M 18,50 C 16,50 10,28 40,8 C 44,6 50,8 48,13 C 30,17 26,36 24,50 Z"/>
+        <path fill="#F5E27A" d="M 2,50 C 0,50 -2,30 24,12 C 28,10 34,12 32,17 C 16,22 10,38 8,50 Z"/>
       </svg>
       <span class="brand">Bridge Finance</span>
     </div>
@@ -636,6 +777,126 @@
     Credit criteria and conditions apply. © 2026 Bridge Finance.</p>
   </div>
 </footer>
+
+<!-- ── ENQUIRY MODAL ── -->
+<div id="modal-overlay">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+
+    <!-- STEP 1: Choose type -->
+    <div id="modal-step-1">
+      <p class="modal-h2">What can I help you with?</p>
+      <p class="modal-sub">Pick your situation and I'll get back to you personally within 24 hours.</p>
+      <div class="modal-options">
+        <button class="modal-option" onclick="nextStep('🏠 First Home Buyer')">🏠 I'm a First Home Buyer</button>
+        <button class="modal-option" onclick="nextStep('📈 Property Investor')">📈 I want to invest in property</button>
+        <button class="modal-option" onclick="nextStep('💰 Refinancing')">💰 I want to refinance</button>
+        <button class="modal-option" onclick="nextStep('🔍 Free Property Review')">🔍 I want a free property review</button>
+        <button class="modal-option" onclick="nextStep('💬 General Enquiry')">💬 Something else</button>
+      </div>
+    </div>
+
+    <!-- STEP 2: Contact details -->
+    <div id="modal-step-2" style="display:none;">
+      <span class="modal-badge" id="modal-type-label"></span>
+      <p class="modal-h2">Your details</p>
+      <p class="modal-sub">I'll respond personally — no call centres, no handoffs.</p>
+      <div class="modal-field">
+        <label class="modal-label">Full Name *</label>
+        <input id="modal-name" class="modal-input" type="text" placeholder="e.g. Sarah Chen" />
+      </div>
+      <div class="modal-field">
+        <label class="modal-label">Phone *</label>
+        <input id="modal-phone" class="modal-input" type="tel" placeholder="0400 000 000" />
+      </div>
+      <div class="modal-field">
+        <label class="modal-label">Email</label>
+        <input id="modal-email" class="modal-input" type="email" placeholder="you@email.com" />
+      </div>
+      <div class="modal-field">
+        <label class="modal-label">Briefly, what's your situation? <span style="opacity:0.5;font-weight:400;">(optional)</span></label>
+        <textarea id="modal-message" class="modal-input" rows="3"
+          placeholder="e.g. Looking to buy my first home in Sydney, budget around $800K..." style="resize:vertical;"></textarea>
+      </div>
+      <button class="modal-submit" onclick="submitEnquiry()">Send My Enquiry →</button>
+      <p class="modal-note">No spam, ever. I respond personally within 24 hours.</p>
+    </div>
+
+    <!-- STEP 3: Thank you -->
+    <div id="modal-step-3" style="display:none;">
+      <div class="modal-thankyou">
+        <div class="big-icon">✅</div>
+        <p class="modal-h2">Enquiry sent!</p>
+        <p class="modal-sub" style="margin-bottom:24px;">I'll be in touch within 24 hours. In the meantime, check out my Friday Property Reviews — every week I analyse a real Sydney property with no listed price and show you what it's actually worth.</p>
+        <a href="https://www.tiktok.com/@williamzhufinance" target="_blank" class="btn-primary" style="display:inline-flex;">Watch Friday Reviews on TikTok →</a>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  var _enquiryType = '';
+
+  function openModal(type) {
+    var overlay = document.getElementById('modal-overlay');
+    overlay.classList.add('active');
+    document.body.style.overflow = 'hidden';
+    showStep(1);
+    if (type === 'property-review') {
+      nextStep('🔍 Free Property Review');
+    }
+  }
+
+  function closeModal() {
+    document.getElementById('modal-overlay').classList.remove('active');
+    document.body.style.overflow = '';
+  }
+
+  function showStep(n) {
+    [1,2,3].forEach(function(i) {
+      var el = document.getElementById('modal-step-' + i);
+      if (el) el.style.display = (i === n) ? 'block' : 'none';
+    });
+  }
+
+  function nextStep(type) {
+    _enquiryType = type;
+    var label = document.getElementById('modal-type-label');
+    if (label) label.textContent = type;
+    showStep(2);
+  }
+
+  function submitEnquiry() {
+    var name = document.getElementById('modal-name').value.trim();
+    var phone = document.getElementById('modal-phone').value.trim();
+    var email = document.getElementById('modal-email').value.trim();
+    var message = document.getElementById('modal-message').value.trim();
+
+    if (!name || !phone) {
+      alert('Please fill in your name and phone number.');
+      return;
+    }
+
+    var subject = encodeURIComponent('Bridge Finance Enquiry — ' + _enquiryType);
+    var body = encodeURIComponent(
+      'Hi William,\n\n' +
+      'Enquiry Type: ' + _enquiryType + '\n\n' +
+      'Name: ' + name + '\n' +
+      'Phone: ' + phone + '\n' +
+      'Email: ' + (email || 'Not provided') + '\n\n' +
+      'Situation:\n' + (message || 'Not provided') + '\n\n' +
+      '---\nSent via bridge-finance landing page'
+    );
+
+    window.open('mailto:williamzhu@bridge-finance.com.au?subject=' + subject + '&body=' + body, '_blank');
+    showStep(3);
+  }
+
+  document.getElementById('modal-overlay').addEventListener('click', function(e) {
+    if (e.target === this) closeModal();
+  });
+</script>
 
 </body>
 </html>
