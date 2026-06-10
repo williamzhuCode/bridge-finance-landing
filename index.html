@@ -1135,19 +1135,58 @@
     if (tourRooms[i]) tourNow.textContent = tourRooms[i].name;
   }
 
-  function tourSeek(i) {
-    if (!tourVideo) return;
-    tourVideo.currentTime = tourRooms[i].time + 0.05;
-    tourSetActive(i);
+  var tourPendingRoom = -1;
+  var tourBlobLoad = null;
+
+  function tourPlay() {
     var p = tourVideo.play();
     if (p && p.catch) p.catch(function () {});
+  }
+
+  /* Hosts without HTTP Range support leave the video unseekable
+     (video.seekable stays empty), which would break the room map.
+     Re-loading the clip as a blob (~1.5 MB) makes it seekable anywhere. */
+  function tourLoadAsBlob() {
+    if (!tourBlobLoad) {
+      tourBlobLoad = fetch(tourVideo.currentSrc || tourVideo.src)
+        .then(function (r) { return r.blob(); })
+        .then(function (b) {
+          return new Promise(function (resolve) {
+            tourVideo.addEventListener('loadedmetadata', resolve, { once: true });
+            tourVideo.src = URL.createObjectURL(b);
+          });
+        });
+    }
+    return tourBlobLoad;
+  }
+
+  function tourCanSeekTo(t) {
+    if (tourVideo.readyState < 1) return false;
+    var s = tourVideo.seekable;
+    var end = s.length ? s.end(s.length - 1) : 0;
+    return end >= Math.min(t, tourVideo.duration - 0.2);
+  }
+
+  function tourSeek(i) {
+    if (!tourVideo) return;
+    var target = tourRooms[i].time + 0.05;
+    tourPendingRoom = i;
+    tourSetActive(i);
+    if (tourCanSeekTo(target)) {
+      tourVideo.currentTime = target;
+      tourPlay();
+    } else {
+      tourLoadAsBlob().then(function () {
+        tourVideo.currentTime = target;
+        tourPlay();
+      });
+    }
   }
 
   function tourTogglePlay() {
     if (!tourVideo) return;
     if (tourVideo.paused) {
-      var p = tourVideo.play();
-      if (p && p.catch) p.catch(function () {});
+      tourPlay();
     } else {
       tourVideo.pause();
     }
@@ -1156,10 +1195,12 @@
   if (tourVideo) {
     tourVideo.addEventListener('play',  function () { tourPhone.classList.add('playing'); });
     tourVideo.addEventListener('pause', function () { tourPhone.classList.remove('playing'); });
-    tourVideo.addEventListener('ended', function () { tourPhone.classList.remove('playing'); tourSetActive(0); });
+    tourVideo.addEventListener('ended', function () { tourPhone.classList.remove('playing'); tourPendingRoom = -1; tourSetActive(0); });
+    tourVideo.addEventListener('seeked', function () { tourPendingRoom = -1; });
 
     /* Highlight the room currently on screen as the walk-through plays */
     tourVideo.addEventListener('timeupdate', function () {
+      if (tourPendingRoom >= 0) return; /* a tapped room's seek is still in flight */
       var t = tourVideo.currentTime;
       var current = 0;
       for (var i = 0; i < tourRooms.length; i++) {
