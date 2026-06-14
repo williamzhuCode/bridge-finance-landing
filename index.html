@@ -765,9 +765,9 @@
 </footer>
 
 <!-- ── ENQUIRY MODAL ── -->
-<div id="modal-overlay">
-  <div class="modal-box">
-    <button class="modal-close" onclick="closeModal()">✕</button>
+<div id="modal-overlay" aria-hidden="true">
+  <div class="modal-box" role="dialog" aria-modal="true" aria-label="Enquiry form">
+    <button class="modal-close" onclick="closeModal()" aria-label="Close enquiry form">✕</button>
 
     <!-- STEP 1: Choose type -->
     <div id="modal-step-1">
@@ -815,6 +815,7 @@
         <p class="modal-h2">Enquiry sent!</p>
         <p class="modal-sub" style="margin-bottom:24px;">I'll be in touch within 24 hours. In the meantime, check out my Friday Property Reviews — every week I analyse a real Sydney property with no listed price and show you what it's actually worth.</p>
         <a href="https://www.tiktok.com/@williamzhufinance" target="_blank" class="btn-primary" style="display:inline-flex;">Watch Friday Reviews on TikTok →</a>
+        <p class="modal-note" style="margin-top:20px;">If your email app didn't open, you can reach me directly at <a href="mailto:williamzhu@bridge-finance.com.au" style="color:var(--navy);font-weight:600;">williamzhu@bridge-finance.com.au</a>.</p>
       </div>
     </div>
 
@@ -845,6 +846,17 @@
 <script>
   /* ── MODAL ── */
   var _enquiryType = '';
+  var _lastFocused = null;
+
+  function isValidEmail(value) {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+  }
+
+  function sendMail(mailto) {
+    /* location.href is more reliable than window.open for mailto:
+       (popup blockers can silently swallow window.open('_blank')). */
+    window.location.href = mailto;
+  }
 
   function hideAllSteps() {
     ['modal-step-1','modal-step-2','modal-step-3','modal-step-pr'].forEach(function(id) {
@@ -856,11 +868,32 @@
   function showStep(n) {
     hideAllSteps();
     var el = document.getElementById('modal-step-' + n);
-    if (el) el.style.display = 'block';
+    if (el) {
+      el.style.display = 'block';
+      /* Move focus into the newly shown step (skip the close button) so the
+         focus trap and screen-reader announcement land in the right place. */
+      var overlay = document.getElementById('modal-overlay');
+      if (overlay && overlay.classList.contains('active')) {
+        var firstInStep = el.querySelector('a[href], button, input, textarea, select');
+        if (firstInStep) firstInStep.focus();
+      }
+    }
+  }
+
+  function getFocusable() {
+    var box = document.querySelector('#modal-overlay .modal-box');
+    if (!box) return [];
+    var nodes = box.querySelectorAll('a[href], button, input, textarea, select, [tabindex]:not([tabindex="-1"])');
+    return Array.prototype.filter.call(nodes, function(el) {
+      return el.offsetParent !== null && !el.disabled;
+    });
   }
 
   function openModal(type) {
-    document.getElementById('modal-overlay').classList.add('active');
+    _lastFocused = document.activeElement;
+    var overlay = document.getElementById('modal-overlay');
+    overlay.classList.add('active');
+    overlay.setAttribute('aria-hidden', 'false');
     document.body.style.overflow = 'hidden';
     if (type === 'property-review') {
       showStep('pr');
@@ -870,9 +903,32 @@
   }
 
   function closeModal() {
-    document.getElementById('modal-overlay').classList.remove('active');
+    var overlay = document.getElementById('modal-overlay');
+    overlay.classList.remove('active');
+    overlay.setAttribute('aria-hidden', 'true');
     document.body.style.overflow = '';
+    if (_lastFocused && typeof _lastFocused.focus === 'function') _lastFocused.focus();
+    _lastFocused = null;
   }
+
+  document.addEventListener('keydown', function(e) {
+    var overlay = document.getElementById('modal-overlay');
+    if (!overlay.classList.contains('active')) return;
+    if (e.key === 'Escape') { closeModal(); return; }
+    if (e.key === 'Tab') {
+      var focusable = getFocusable();
+      if (!focusable.length) return;
+      var first = focusable[0];
+      var last = focusable[focusable.length - 1];
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      }
+    }
+  });
 
   function nextStep(type) {
     _enquiryType = type;
@@ -887,13 +943,14 @@
     var email = document.getElementById('modal-email').value.trim();
     var msg   = document.getElementById('modal-message').value.trim();
     if (!name || !phone) { alert('Please fill in your name and phone number.'); return; }
+    if (email && !isValidEmail(email)) { alert('Please enter a valid email address, or leave it blank.'); return; }
     var subject = encodeURIComponent('Bridge Finance Enquiry — ' + _enquiryType);
     var body = encodeURIComponent(
       'Hi William,\n\nEnquiry Type: ' + _enquiryType + '\n\n' +
       'Name: ' + name + '\nPhone: ' + phone + '\nEmail: ' + (email || 'Not provided') +
       '\n\nSituation:\n' + (msg || 'Not provided') + '\n\n---\nSent via bridge-finance landing page'
     );
-    window.open('mailto:williamzhu@bridge-finance.com.au?subject=' + subject + '&body=' + body, '_blank');
+    sendMail('mailto:williamzhu@bridge-finance.com.au?subject=' + subject + '&body=' + body);
     showStep(3);
   }
 
@@ -908,7 +965,7 @@
       'Properties to analyse:\n' + addresses + '\n\nPhone: ' + phone +
       '\n\n---\nSent via bridge-finance landing page'
     );
-    window.open('mailto:williamzhu@bridge-finance.com.au?subject=' + subject + '&body=' + body, '_blank');
+    sendMail('mailto:williamzhu@bridge-finance.com.au?subject=' + subject + '&body=' + body);
     showStep(3);
   }
 
