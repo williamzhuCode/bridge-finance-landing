@@ -594,11 +594,11 @@
 <div class="stats" id="stats-section">
   <div class="stats-inner">
     <div class="stat-item">
-      <div class="stat-number" id="stat-loans">$0M+</div>
+      <div class="stat-number" id="stat-loans">$600M+</div>
       <div class="stat-label">Home loans settled</div>
     </div>
     <div class="stat-item">
-      <div class="stat-number" id="stat-lenders">0+</div>
+      <div class="stat-number" id="stat-lenders">90+</div>
       <div class="stat-label">Lenders on panel</div>
     </div>
     <div class="stat-item">
@@ -607,7 +607,7 @@
     </div>
     <div class="stat-item stat-item--clickable" onclick="window.open('https://share.google/m1QjzJF7WyIRvVscH','_blank')">
       <div class="stat-number" id="stat-stars" style="letter-spacing:3px;">★★★★★</div>
-      <div class="stat-label">5.0 · 63 Google Reviews ↗</div>
+      <div class="stat-label">5.0 · 66 Google Reviews ↗</div>
     </div>
   </div>
 </div>
@@ -669,7 +669,7 @@
         <p class="section-label">About William</p>
         <h2>Builder. Banker. Broker.</h2>
         <p>For 5 years I ran my family's construction business — building duplexes, knock-down rebuilds, DA applications across Hunters Hill, Paddington, Chiswick and Burwood — <strong>while simultaneously</strong> working as a Lending Executive at Commonwealth Bank.</p>
-        <p>During my time at CBA, I was ranked in the <strong>Top 50 Mortgage Lenders across Australia</strong> (2024–2025), settling over <strong>$500M+ in home loans</strong> for everyone from first home buyers to doctors and high-net-worth clients.</p>
+        <p>During my time at CBA, I was ranked in the <strong>Top 50 Mortgage Lenders across Australia</strong> (2024–2025), settling over <strong>$600M+ in home loans</strong> for everyone from first home buyers to doctors and high-net-worth clients.</p>
         <p>I started Bridge Finance to close the gap nobody else was filling: helping clients figure out whether they're buying the right property at the right price — alongside the right loan.</p>
         <div class="about-tags">
           <span class="tag-highlight">🏆 Top 50 CBA Lender (AU, 2024–25)</span>
@@ -743,7 +743,7 @@
         <div class="contact-icon">⭐</div>
         <div class="contact-card-text">
           <div class="contact-card-label">Google Reviews</div>
-          <div class="contact-card-value">★★★★★ 5.0 · 63 Reviews</div>
+          <div class="contact-card-value">★★★★★ 5.0 · 66 Reviews</div>
         </div>
       </a>
     </div>
@@ -937,7 +937,7 @@
   var statsObserver = new IntersectionObserver(function(entries) {
     if (entries[0].isIntersecting && !statsAnimated) {
       statsAnimated = true;
-      animateCount('stat-loans',   0, 500, 1800, function(v) { return '$' + v + 'M+'; });
+      animateCount('stat-loans',   0, 600, 1800, function(v) { return '$' + v + 'M+'; });
       animateCount('stat-lenders', 0, 90,  1500, function(v) { return v + '+'; });
       animateCount('stat-cba',     1, 50,  1600, function(v) { return 'Top ' + v; });
       /* Stars: animate in one by one */
