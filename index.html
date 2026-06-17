@@ -125,6 +125,13 @@
       font-family: 'Inter', sans-serif;
     }
 
+    .btn-primary.btn-outline {
+      background: transparent;
+      color: var(--navy);
+      border: 2px solid var(--navy);
+      padding: 13px 26px;
+    }
+
     .btn-secondary {
       background: transparent;
       color: var(--navy);
@@ -804,7 +811,8 @@
         <textarea id="modal-message" class="modal-input" rows="3"
           placeholder="e.g. Looking to buy my first home in Sydney, budget around $800K..." style="resize:vertical;"></textarea>
       </div>
-      <button class="modal-submit" onclick="submitEnquiry()">Send My Enquiry →</button>
+      <input type="checkbox" id="modal-botcheck" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px;" aria-hidden="true" />
+      <button id="modal-submit-btn" class="modal-submit" onclick="submitEnquiry()">Send My Enquiry →</button>
       <p class="modal-note">No spam, ever. I respond personally within 24 hours.</p>
     </div>
 
@@ -813,8 +821,10 @@
       <div class="modal-thankyou">
         <div class="big-icon">✅</div>
         <p class="modal-h2">Enquiry sent!</p>
-        <p class="modal-sub" style="margin-bottom:24px;">I'll be in touch within 24 hours. In the meantime, check out my Friday Property Reviews — every week I analyse a real Sydney property with no listed price and show you what it's actually worth.</p>
-        <a href="https://www.tiktok.com/@williamzhufinance" target="_blank" class="btn-primary" style="display:inline-flex;">Watch Friday Reviews on TikTok →</a>
+        <p class="modal-sub" style="margin-bottom:20px;">I'll be in touch within 24 hours. Prefer to talk now? Call or text me directly:</p>
+        <a href="tel:0492949169" class="btn-primary" style="display:inline-flex;margin-bottom:20px;">📞 Call or text 0492 949 169</a>
+        <p class="modal-sub" style="margin-bottom:16px;">In the meantime, check out my Friday Property Reviews — every week I analyse a real Sydney property with no listed price and show you what it's actually worth.</p>
+        <a href="https://www.tiktok.com/@williamzhufinance" target="_blank" class="btn-primary btn-outline" style="display:inline-flex;">Watch Friday Reviews on TikTok →</a>
       </div>
     </div>
 
@@ -835,7 +845,8 @@
         <label class="modal-label">Phone *</label>
         <input id="pr-phone" class="modal-input" type="tel" placeholder="0400 000 000" />
       </div>
-      <button class="modal-submit" onclick="submitPropertyReview()">Send for Analysis →</button>
+      <input type="checkbox" id="pr-botcheck" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px;" aria-hidden="true" />
+      <button id="pr-submit-btn" class="modal-submit" onclick="submitPropertyReview()">Send for Analysis →</button>
       <p class="modal-note">No obligation. I'll respond within 24 hours with my honest assessment.</p>
     </div>
 
@@ -843,6 +854,68 @@
 </div>
 
 <script>
+  /* ── LEAD DELIVERY CONFIG ──
+     Each enquiry is sent straight to William's inbox via Web3Forms. This
+     works on EVERY phone — including inside the TikTok / Instagram in-app
+     browser — and does NOT rely on the visitor having an email app set up.
+
+     ▶ TO ACTIVATE (one-time): get a free access key at https://web3forms.com
+       — enter williamzhu@bridge-finance.com.au and they email you a key —
+       then paste it below in place of the placeholder.
+     Until a real key is set, the form safely falls back to opening the
+     visitor's email app so no enquiry is ever lost. */
+  var WEB3FORMS_ACCESS_KEY = '6212fc0e-c113-43bd-9854-ea4549687bde';
+  var LEAD_EMAIL = 'williamzhu@bridge-finance.com.au';
+
+  function _hasAccessKey() {
+    return WEB3FORMS_ACCESS_KEY && WEB3FORMS_ACCESS_KEY.indexOf('REPLACE_WITH') === -1;
+  }
+
+  /* Reliable mobile / in-app-browser way to trigger the mail app. We use
+     location.href because window.open(..., '_blank') is blocked inside the
+     TikTok and Instagram browsers, which is what broke the form before. */
+  function emailFallback(subject, body) {
+    window.location.href = 'mailto:' + LEAD_EMAIL +
+      '?subject=' + encodeURIComponent(subject) +
+      '&body=' + encodeURIComponent(body);
+  }
+
+  /* Sends the lead to Web3Forms, then calls onDone(). If no key is set, or
+     the request fails for any reason, falls back to the email app so the
+     enquiry is never silently dropped. */
+  function deliverLead(fields, mailSubject, mailBody, onDone) {
+    if (!_hasAccessKey()) { emailFallback(mailSubject, mailBody); onDone(); return; }
+    fields.access_key = WEB3FORMS_ACCESS_KEY;
+    fields.subject = mailSubject;
+    fetch('https://api.web3forms.com/submit', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify(fields)
+    })
+    .then(function(r) { return r.json(); })
+    .then(function(data) {
+      if (!data || !data.success) { emailFallback(mailSubject, mailBody); }
+      onDone();
+    })
+    .catch(function() { emailFallback(mailSubject, mailBody); onDone(); });
+  }
+
+  function setSending(btn, on) {
+    if (!btn) return;
+    if (on) {
+      btn.dataset.label = btn.textContent;
+      btn.textContent = 'Sending…';
+      btn.disabled = true;
+      btn.style.opacity = '0.65';
+      btn.style.cursor = 'wait';
+    } else {
+      if (btn.dataset.label) btn.textContent = btn.dataset.label;
+      btn.disabled = false;
+      btn.style.opacity = '';
+      btn.style.cursor = '';
+    }
+  }
+
   /* ── MODAL ── */
   var _enquiryType = '';
 
@@ -882,34 +955,53 @@
   }
 
   function submitEnquiry() {
+    if (document.getElementById('modal-botcheck').checked) { showStep(3); return; } // honeypot
     var name  = document.getElementById('modal-name').value.trim();
     var phone = document.getElementById('modal-phone').value.trim();
     var email = document.getElementById('modal-email').value.trim();
     var msg   = document.getElementById('modal-message').value.trim();
     if (!name || !phone) { alert('Please fill in your name and phone number.'); return; }
-    var subject = encodeURIComponent('Bridge Finance Enquiry — ' + _enquiryType);
-    var body = encodeURIComponent(
+    var btn = document.getElementById('modal-submit-btn');
+    setSending(btn, true);
+    deliverLead(
+      {
+        from_name: name,
+        'Enquiry Type': _enquiryType,
+        Name: name,
+        Phone: phone,
+        Email: email || 'Not provided',
+        Situation: msg || 'Not provided'
+      },
+      'Bridge Finance Enquiry — ' + _enquiryType,
       'Hi William,\n\nEnquiry Type: ' + _enquiryType + '\n\n' +
       'Name: ' + name + '\nPhone: ' + phone + '\nEmail: ' + (email || 'Not provided') +
-      '\n\nSituation:\n' + (msg || 'Not provided') + '\n\n---\nSent via bridge-finance landing page'
+      '\n\nSituation:\n' + (msg || 'Not provided') + '\n\n---\nSent via bridge-finance landing page',
+      function() { setSending(btn, false); showStep(3); }
     );
-    window.open('mailto:williamzhu@bridge-finance.com.au?subject=' + subject + '&body=' + body, '_blank');
-    showStep(3);
   }
 
   function submitPropertyReview() {
+    if (document.getElementById('pr-botcheck').checked) { showStep(3); return; } // honeypot
     var addresses = document.getElementById('pr-addresses').value.trim();
     var name      = document.getElementById('pr-name').value.trim();
     var phone     = document.getElementById('pr-phone').value.trim();
     if (!addresses || !name || !phone) { alert('Please fill in all required fields.'); return; }
-    var subject = encodeURIComponent('Free Property Analysis Request — ' + name);
-    var body = encodeURIComponent(
+    var btn = document.getElementById('pr-submit-btn');
+    setSending(btn, true);
+    deliverLead(
+      {
+        from_name: name,
+        'Enquiry Type': '🔍 Free Property Review',
+        Name: name,
+        Phone: phone,
+        'Properties to analyse': addresses
+      },
+      'Free Property Analysis Request — ' + name,
       'Hi William,\n\n' + name + ' would like a free property analysis.\n\n' +
       'Properties to analyse:\n' + addresses + '\n\nPhone: ' + phone +
-      '\n\n---\nSent via bridge-finance landing page'
+      '\n\n---\nSent via bridge-finance landing page',
+      function() { setSending(btn, false); showStep(3); }
     );
-    window.open('mailto:williamzhu@bridge-finance.com.au?subject=' + subject + '&body=' + body, '_blank');
-    showStep(3);
   }
 
   document.getElementById('modal-overlay').addEventListener('click', function(e) {
