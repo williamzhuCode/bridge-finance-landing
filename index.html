@@ -429,6 +429,158 @@
       .friday-cta .btn-primary { width: 100%; justify-content: center; }
     }
 
+    /* ── VIRTUAL PROPERTY TOUR ── */
+    .tour { background: var(--light-bg); }
+
+    .tour-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 300px) 1fr;
+      gap: 44px;
+      align-items: center;
+    }
+
+    @media (max-width: 760px) {
+      .tour-grid { grid-template-columns: 1fr; gap: 30px; }
+    }
+
+    /* phone-style device frame */
+    .tour-phone {
+      position: relative;
+      width: 100%;
+      max-width: 300px;
+      margin: 0 auto;
+      aspect-ratio: 360 / 626;
+      background: #000;
+      border-radius: 30px;
+      border: 9px solid var(--navy);
+      box-shadow: 0 24px 55px rgba(45,64,112,0.30);
+      overflow: hidden;
+      transform: perspective(1100px) rotateY(7deg);
+      transition: transform 0.4s ease;
+    }
+    .tour-phone:hover, .tour-phone.playing { transform: perspective(1100px) rotateY(0deg); }
+
+    .tour-phone video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .tour-play {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(45,64,112,0.28);
+      border: none;
+      cursor: pointer;
+      transition: opacity 0.2s;
+    }
+    .tour-phone.playing .tour-play { opacity: 0; pointer-events: none; }
+
+    .tour-play span {
+      width: 66px;
+      height: 66px;
+      border-radius: 50%;
+      background: var(--yellow);
+      color: var(--navy);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      padding-left: 4px;
+      box-shadow: 0 6px 22px rgba(0,0,0,0.35);
+    }
+
+    .tour-now {
+      position: absolute;
+      left: 0; right: 0; bottom: 0;
+      padding: 34px 16px 16px;
+      background: linear-gradient(transparent, rgba(0,0,0,0.78));
+      pointer-events: none;
+    }
+    .tour-now-label {
+      font-size: 10px;
+      letter-spacing: 1.6px;
+      text-transform: uppercase;
+      color: var(--yellow);
+      font-weight: 600;
+    }
+    .tour-now-room {
+      font-family: 'Playfair Display', serif;
+      font-size: 21px;
+      color: #fff;
+      line-height: 1.2;
+    }
+
+    .tour-map {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+    @media (max-width: 380px) { .tour-map { grid-template-columns: repeat(2, 1fr); } }
+
+    .tour-room {
+      position: relative;
+      padding: 0;
+      border: none;
+      cursor: pointer;
+      border-radius: 12px;
+      overflow: hidden;
+      aspect-ratio: 3 / 4;
+      background-color: var(--navy);
+      background-size: cover;
+      background-position: center;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.14);
+      outline: 3px solid transparent;
+      transition: transform 0.15s, outline-color 0.15s, box-shadow 0.15s;
+    }
+    .tour-room:hover { transform: translateY(-3px); box-shadow: 0 8px 18px rgba(45,64,112,0.28); }
+    .tour-room::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(transparent 38%, rgba(0,0,0,0.72));
+    }
+    .tour-room.active { outline-color: var(--yellow); }
+    .tour-room.active .tour-room-num { background: #fff; }
+
+    .tour-room-num {
+      position: absolute;
+      top: 7px;
+      left: 7px;
+      z-index: 1;
+      width: 21px;
+      height: 21px;
+      background: var(--yellow);
+      color: var(--navy);
+      border-radius: 50%;
+      font-size: 11px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .tour-room-name {
+      position: absolute;
+      left: 9px; right: 9px; bottom: 8px;
+      z-index: 1;
+      color: #fff;
+      font-size: 12px;
+      font-weight: 600;
+      text-align: left;
+      line-height: 1.25;
+    }
+
+    .tour-foot {
+      margin-top: 22px;
+      font-size: 14px;
+      color: var(--text-muted);
+    }
+    .tour-foot strong { color: var(--navy); }
+
     /* ── ENQUIRY MODAL ── */
     #modal-overlay {
       display: none;
@@ -665,6 +817,51 @@
       <li>Honest view on whether you should walk away</li>
     </ul>
     <button onclick="openModal('property-review')" class="btn-primary">Get Your Free Property Review →</button>
+  </div>
+</section>
+
+<!-- VIRTUAL PROPERTY TOUR -->
+<section class="tour">
+  <div class="section-inner">
+    <p class="section-label">3D Property Walk-Through</p>
+    <h2>Step inside before you step in.</h2>
+    <p class="section-sub">Every property I review gets a full walk-through. Tap a room on the tour map to jump straight to it — this is exactly how I read a home's flow, light and condition before we ever talk numbers.</p>
+    <div class="tour-grid">
+      <div class="tour-phone" id="tour-phone">
+        <video id="tour-video" src="property-tour.mp4" poster="tour-room-1.jpg"
+               playsinline preload="metadata"></video>
+        <div class="tour-now">
+          <div class="tour-now-label">Now viewing</div>
+          <div class="tour-now-room" id="tour-now-room">Entrance Hall</div>
+        </div>
+        <button class="tour-play" id="tour-play" onclick="tourTogglePlay()" aria-label="Play tour">
+          <span>▶</span>
+        </button>
+      </div>
+      <div>
+        <div class="tour-map" id="tour-map">
+          <button class="tour-room active" data-time="0"  onclick="tourSeek(0)" style="background-image:url('tour-room-1.jpg')">
+            <span class="tour-room-num">1</span><span class="tour-room-name">Entrance Hall</span>
+          </button>
+          <button class="tour-room" data-time="5"  onclick="tourSeek(1)" style="background-image:url('tour-room-2.jpg')">
+            <span class="tour-room-num">2</span><span class="tour-room-name">Grand Foyer</span>
+          </button>
+          <button class="tour-room" data-time="10" onclick="tourSeek(2)" style="background-image:url('tour-room-3.jpg')">
+            <span class="tour-room-num">3</span><span class="tour-room-name">The Study</span>
+          </button>
+          <button class="tour-room" data-time="15" onclick="tourSeek(3)" style="background-image:url('tour-room-4.jpg')">
+            <span class="tour-room-num">4</span><span class="tour-room-name">Sitting Room</span>
+          </button>
+          <button class="tour-room" data-time="21" onclick="tourSeek(4)" style="background-image:url('tour-room-5.jpg')">
+            <span class="tour-room-num">5</span><span class="tour-room-name">Home Office</span>
+          </button>
+          <button class="tour-room" data-time="28" onclick="tourSeek(5)" style="background-image:url('tour-room-6.jpg')">
+            <span class="tour-room-num">6</span><span class="tour-room-name">Grand Staircase</span>
+          </button>
+        </div>
+        <p class="tour-foot">A <strong>Hunters Hill</strong> period home from a recent Friday review. Want this analysis on a property you're eyeing? <strong>It's free with every client.</strong></p>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -1007,6 +1204,103 @@
   document.getElementById('modal-overlay').addEventListener('click', function(e) {
     if (e.target === this) closeModal();
   });
+
+  /* ── VIRTUAL PROPERTY TOUR ── */
+  var tourRooms = [
+    { name: 'Entrance Hall',   time: 0 },
+    { name: 'Grand Foyer',     time: 5 },
+    { name: 'The Study',       time: 10 },
+    { name: 'Sitting Room',    time: 15 },
+    { name: 'Home Office',     time: 21 },
+    { name: 'Grand Staircase', time: 28 }
+  ];
+
+  var tourVideo  = document.getElementById('tour-video');
+  var tourPhone  = document.getElementById('tour-phone');
+  var tourNow    = document.getElementById('tour-now-room');
+  var tourBtns   = document.querySelectorAll('#tour-map .tour-room');
+
+  function tourSetActive(i) {
+    tourBtns.forEach(function (b, idx) {
+      b.classList.toggle('active', idx === i);
+    });
+    if (tourRooms[i]) tourNow.textContent = tourRooms[i].name;
+  }
+
+  var tourPendingRoom = -1;
+  var tourBlobLoad = null;
+
+  function tourPlay() {
+    var p = tourVideo.play();
+    if (p && p.catch) p.catch(function () {});
+  }
+
+  /* Hosts without HTTP Range support leave the video unseekable
+     (video.seekable stays empty), which would break the room map.
+     Re-loading the clip as a blob (~1.5 MB) makes it seekable anywhere. */
+  function tourLoadAsBlob() {
+    if (!tourBlobLoad) {
+      tourBlobLoad = fetch(tourVideo.currentSrc || tourVideo.src)
+        .then(function (r) { return r.blob(); })
+        .then(function (b) {
+          return new Promise(function (resolve) {
+            tourVideo.addEventListener('loadedmetadata', resolve, { once: true });
+            tourVideo.src = URL.createObjectURL(b);
+          });
+        });
+    }
+    return tourBlobLoad;
+  }
+
+  function tourCanSeekTo(t) {
+    if (tourVideo.readyState < 1) return false;
+    var s = tourVideo.seekable;
+    var end = s.length ? s.end(s.length - 1) : 0;
+    return end >= Math.min(t, tourVideo.duration - 0.2);
+  }
+
+  function tourSeek(i) {
+    if (!tourVideo) return;
+    var target = tourRooms[i].time + 0.05;
+    tourPendingRoom = i;
+    tourSetActive(i);
+    if (tourCanSeekTo(target)) {
+      tourVideo.currentTime = target;
+      tourPlay();
+    } else {
+      tourLoadAsBlob().then(function () {
+        tourVideo.currentTime = target;
+        tourPlay();
+      });
+    }
+  }
+
+  function tourTogglePlay() {
+    if (!tourVideo) return;
+    if (tourVideo.paused) {
+      tourPlay();
+    } else {
+      tourVideo.pause();
+    }
+  }
+
+  if (tourVideo) {
+    tourVideo.addEventListener('play',  function () { tourPhone.classList.add('playing'); });
+    tourVideo.addEventListener('pause', function () { tourPhone.classList.remove('playing'); });
+    tourVideo.addEventListener('ended', function () { tourPhone.classList.remove('playing'); tourPendingRoom = -1; tourSetActive(0); });
+    tourVideo.addEventListener('seeked', function () { tourPendingRoom = -1; });
+
+    /* Highlight the room currently on screen as the walk-through plays */
+    tourVideo.addEventListener('timeupdate', function () {
+      if (tourPendingRoom >= 0) return; /* a tapped room's seek is still in flight */
+      var t = tourVideo.currentTime;
+      var current = 0;
+      for (var i = 0; i < tourRooms.length; i++) {
+        if (t >= tourRooms[i].time - 0.05) current = i;
+      }
+      if (!tourBtns[current].classList.contains('active')) tourSetActive(current);
+    });
+  }
 
   /* ── STATS COUNTER ANIMATION ── */
   function easeOut(t) { return 1 - Math.pow(1 - t, 3); }
