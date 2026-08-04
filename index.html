@@ -179,6 +179,45 @@
     .stat-label { font-size: 11px; color: rgba(255,255,255,0.7); margin-top: 4px; letter-spacing: 0.3px; }
     .stat-item--clickable { cursor: pointer; }
 
+    /* ── AWARD ──
+       Extends the navy credibility zone rather than adding a new colour block:
+       the numbers and the award read as one proof band. The seal is silver, so
+       it needs navy behind it — on the cream sections it turns to mud. */
+    .award {
+      background: var(--navy);
+      padding: 0 24px 30px;
+    }
+    .award-inner {
+      max-width: 900px;
+      margin: 0 auto;
+      padding-top: 26px;
+      border-top: 1px solid rgba(245, 226, 122, 0.28);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+    }
+    .award-seal { width: 76px; height: 76px; flex: none; }
+    .award-text { text-align: left; }
+    .award-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 21px;
+      line-height: 1.2;
+      color: var(--yellow);
+    }
+    .award-sub {
+      font-size: 12px;
+      line-height: 1.5;
+      color: rgba(255, 255, 255, 0.7);
+      letter-spacing: 0.3px;
+      margin-top: 3px;
+    }
+    @media (max-width: 560px) {
+      .award-inner { gap: 16px; }
+      .award-seal { width: 62px; height: 62px; }
+      .award-title { font-size: 18px; }
+    }
+
     /* ── SECTION ── */
     section { padding: 64px 24px; }
 
@@ -615,6 +654,18 @@
     <div class="stat-item stat-item--clickable" onclick="window.open('https://share.google/m1QjzJF7WyIRvVscH','_blank')">
       <div class="stat-number" id="stat-stars" style="letter-spacing:3px;">★★★★★</div>
       <div class="stat-label">5.0 · 66 Google Reviews ↗</div>
+    </div>
+  </div>
+</div>
+
+<!-- AWARD -->
+<div class="award">
+  <div class="award-inner">
+    <img src="aba-finalist.png" class="award-seal" width="76" height="76" loading="lazy"
+      alt="Finalist — Rising Star, Australian Broking Awards 2026" onerror="this.style.display='none'" />
+    <div class="award-text">
+      <div class="award-title">2026 Finalist — Rising Star</div>
+      <div class="award-sub">The Adviser · Australian Broking Awards</div>
     </div>
   </div>
 </div>
