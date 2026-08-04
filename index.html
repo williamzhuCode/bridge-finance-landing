@@ -34,7 +34,9 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
+      gap: 16px;                /* logo and CTA can never touch */
     }
+    .logo-img { height: 46px; width: auto; border-radius: 8px; display: block; }
 
     .logo-wrap {
       display: flex;
@@ -59,6 +61,20 @@
       transition: background 0.15s;
     }
     header .cta-header:hover { background: var(--yellow-dark); }
+
+    /* Phone: the 46px logo is ~193px wide; with the full-size button that
+       overflows a 360-390px viewport and the pair visually collide.
+       These sit AFTER the base .cta-header rule on purpose - at equal
+       specificity the later rule wins, and placed above it they lose. */
+    @media (max-width: 480px) {
+      header { padding: 12px 14px; gap: 10px; }
+      .logo-img { height: 36px; border-radius: 6px; }
+      header .cta-header { padding: 9px 13px; font-size: 12.5px; }
+    }
+    @media (max-width: 340px) {
+      .logo-img { height: 30px; }
+      header .cta-header { padding: 8px 10px; font-size: 11.5px; }
+    }
 
     /* ── HERO ── */
     .hero {
@@ -613,7 +629,7 @@
 <!-- HEADER -->
 <header>
   <a href="#" class="logo-wrap">
-    <img src="logo-full.png" alt="Bridge Finance — The Bridge To Your Home Loan Needs" style="height:46px; width:auto; border-radius:8px;" />
+    <img src="logo-full.png" class="logo-img" alt="Bridge Finance — The Bridge To Your Home Loan Needs" />
   </a>
   <button onclick="openModal('general')" class="cta-header">Book a Free Call</button>
 </header>
@@ -647,13 +663,9 @@
       <div class="stat-number" id="stat-lenders">90+</div>
       <div class="stat-label">Lenders on panel</div>
     </div>
-    <div class="stat-item">
-      <div class="stat-number" id="stat-cba">Top 1</div>
-      <div class="stat-label">CBA Mortgage Lenders (AU, 2024–25)</div>
-    </div>
     <div class="stat-item stat-item--clickable" onclick="window.open('https://share.google/m1QjzJF7WyIRvVscH','_blank')">
       <div class="stat-number" id="stat-stars" style="letter-spacing:3px;">★★★★★</div>
-      <div class="stat-label">5.0 · 66 Google Reviews ↗</div>
+      <div class="stat-label">5.0 · 77 Google Reviews ↗</div>
     </div>
   </div>
 </div>
@@ -727,10 +739,10 @@
         <p class="section-label">About William</p>
         <h2>Builder. Banker. Broker.</h2>
         <p>For 5 years I ran my family's construction business — building duplexes, knock-down rebuilds, DA applications across Hunters Hill, Paddington, Chiswick and Burwood — <strong>while simultaneously</strong> working as a Lending Executive at Commonwealth Bank.</p>
-        <p>During my time at CBA, I was ranked in the <strong>Top 50 Mortgage Lenders across Australia</strong> (2024–2025), settling over <strong>$600M+ in home loans</strong> for everyone from first home buyers to doctors and high-net-worth clients.</p>
+        <p>During my time at CBA, I settled over <strong>$600M+ in home loans</strong> for everyone from first home buyers to doctors and high-net-worth clients.</p>
         <p>I started Bridge Finance to close the gap nobody else was filling: helping clients figure out whether they're buying the right property at the right price — alongside the right loan.</p>
         <div class="about-tags">
-          <span class="tag-highlight">🏆 Top 50 CBA Lender (AU, 2024–25)</span>
+          <span class="tag-highlight">🏆 2026 Rising Star Finalist — Australian Broking Awards</span>
           <span class="tag">MFAA Member</span>
           <span class="tag">Credit Rep No. 567817</span>
           <span class="tag">Sydney-wide</span>
@@ -801,7 +813,7 @@
         <div class="contact-icon">⭐</div>
         <div class="contact-card-text">
           <div class="contact-card-label">Google Reviews</div>
-          <div class="contact-card-value">★★★★★ 5.0 · 66 Reviews</div>
+          <div class="contact-card-value">★★★★★ 5.0 · 77 Reviews</div>
         </div>
       </a>
     </div>
@@ -1082,7 +1094,6 @@
       statsAnimated = true;
       animateCount('stat-loans',   0, 600, 1800, function(v) { return '$' + v + 'M+'; });
       animateCount('stat-lenders', 0, 90,  1500, function(v) { return v + '+'; });
-      animateCount('stat-cba',     1, 50,  1600, function(v) { return 'Top ' + v; });
       /* Stars: animate in one by one */
       var si = 0;
       var starEl = document.getElementById('stat-stars');
