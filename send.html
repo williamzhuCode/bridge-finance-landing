@@ -57,11 +57,13 @@
       border: 1.5px solid var(--line); border-radius: 10px; outline: none;
     }
     input:focus { border-color: var(--navy); }
-    .opts { display: flex; flex-wrap: wrap; gap: 8px; }
+    .opts { display: flex; flex-wrap: wrap; gap: 8px; align-items: stretch; }
+    .opts label { display: inline-flex; margin: 0; }
     .opts input { position: absolute; opacity: 0; pointer-events: none; }
     .opts span {
-      display: inline-block; padding: 10px 14px; border: 1.5px solid var(--line);
-      border-radius: 24px; font-size: 14px; font-weight: 500; cursor: pointer; user-select: none;
+      display: inline-flex; align-items: center; padding: 10px 14px; border: 1.5px solid var(--line);
+      border-radius: 24px; font-size: 14px; font-weight: 500; line-height: 1.2; cursor: pointer;
+      user-select: none; white-space: nowrap;
     }
     .opts input:checked + span { background: var(--navy); color: #fff; border-color: var(--navy); }
     button {
@@ -113,7 +115,7 @@
     <div class="whoRow">
       <img src="william.png" alt="William Zhu">
       <div class="t"><b>William Zhu</b> &middot; Mortgage Broker &amp; Director<br>
-        Five years in construction before broking, so I'll flag the build issues too.</div>
+        A lender for the last 8 years. I've helped my clients win their offers at a great price.</div>
     </div>
 
     <form id="leadForm" autocomplete="on">
@@ -155,7 +157,7 @@
       <ul>
         <li>What it's worth, backed by recent comparable sales</li>
         <li>What it last sold for, and what's changed since</li>
-        <li>Build issues I'd want checked, from 5 years in construction</li>
+        <li>The things I'd get checked before you sign anything</li>
         <li>The number I'd open at, and the one I'd stop at</li>
       </ul>
     </div>
