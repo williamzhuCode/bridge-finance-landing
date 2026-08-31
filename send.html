@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Send me the address | Bridge Finance</title>
+  <meta name="description" content="Found a place you like? Send William the address before you make an offer. Free comparable-sales check from your mortgage broker. Sydney.">
+  <link rel="icon" href="logo-icon.jpg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --navy: #2D4070;
+      --yellow: #F5E27A;
+      --yellow-dark: #e8d05a;
+      --ink: #15181D;
+      --mid: #5C626D;
+      --line: #E3E6EB;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Inter', sans-serif; color: var(--ink); background: #fff; }
+
+    header {
+      background: var(--navy); padding: 14px 20px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    header img { height: 40px; border-radius: 6px; }
+    header a.call {
+      background: var(--yellow); color: var(--navy); text-decoration: none;
+      font-weight: 700; font-size: 14px; padding: 9px 16px; border-radius: 24px; white-space: nowrap;
+    }
+    header a.call:hover { background: var(--yellow-dark); }
+
+    .wrap { max-width: 640px; margin: 0 auto; padding: 36px 22px 60px; }
+    .role {
+      font-size: 12px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase;
+      color: var(--mid); margin-bottom: 14px;
+    }
+    h1 {
+      font-family: 'Playfair Display', serif; font-size: clamp(30px, 6vw, 42px);
+      line-height: 1.15; color: var(--navy); margin-bottom: 14px;
+    }
+    .dek { font-size: 17px; line-height: 1.55; color: var(--mid); margin-bottom: 8px; }
+    .dek b { color: var(--ink); }
+
+    .whoRow { display: flex; gap: 14px; align-items: center; margin: 22px 0 26px; }
+    .whoRow img { width: 62px; height: 62px; border-radius: 50%; object-fit: cover; object-position: center 18%; }
+    .whoRow .t { font-size: 14px; line-height: 1.45; color: var(--mid); }
+    .whoRow .t b { color: var(--navy); }
+
+    form { border: 1px solid var(--line); border-radius: 16px; padding: 22px 20px 24px; }
+    label { display: block; font-size: 14px; font-weight: 600; margin: 16px 0 6px; }
+    label:first-of-type { margin-top: 0; }
+    input[type="text"], input[type="tel"] {
+      width: 100%; font: inherit; font-size: 16px; padding: 13px 14px;
+      border: 1.5px solid var(--line); border-radius: 10px; outline: none;
+    }
+    input:focus { border-color: var(--navy); }
+    .opts { display: flex; flex-wrap: wrap; gap: 8px; }
+    .opts input { position: absolute; opacity: 0; pointer-events: none; }
+    .opts span {
+      display: inline-block; padding: 10px 14px; border: 1.5px solid var(--line);
+      border-radius: 24px; font-size: 14px; font-weight: 500; cursor: pointer; user-select: none;
+    }
+    .opts input:checked + span { background: var(--navy); color: #fff; border-color: var(--navy); }
+    button {
+      width: 100%; margin-top: 22px; font: inherit; font-size: 17px; font-weight: 800;
+      background: var(--yellow); color: var(--navy); border: 0; border-radius: 12px;
+      padding: 16px; cursor: pointer;
+    }
+    button:hover { background: var(--yellow-dark); }
+    button:disabled { opacity: .6; cursor: default; }
+    .micro { font-size: 12.5px; color: var(--mid); margin-top: 12px; line-height: 1.5; }
+
+    .done { display: none; border: 1px solid var(--line); border-radius: 16px; padding: 28px 22px; text-align: center; }
+    .done h2 { font-family: 'Playfair Display', serif; color: var(--navy); font-size: 26px; margin-bottom: 10px; }
+    .done p { font-size: 15px; color: var(--mid); line-height: 1.55; }
+    .done a { color: var(--navy); font-weight: 700; }
+
+    .expect { margin: 30px 0 0; }
+    .expect h3 { font-size: 14px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--navy); margin-bottom: 12px; }
+    .expect ul { list-style: none; }
+    .expect li { position: relative; padding-left: 26px; margin-bottom: 9px; font-size: 15px; line-height: 1.5; color: var(--ink); }
+    .expect li:before {
+      content: '✓'; position: absolute; left: 0; top: 0;
+      color: var(--navy); font-weight: 800;
+    }
+    .notAgent {
+      margin-top: 26px; padding: 14px 16px; background: #F7F8FA; border-radius: 12px;
+      font-size: 13.5px; line-height: 1.55; color: var(--mid);
+    }
+    .notAgent b { color: var(--ink); }
+
+    footer {
+      border-top: 1px solid var(--line); margin-top: 20px; padding: 22px;
+      text-align: center; font-size: 12px; color: #8A9099; line-height: 1.6;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <img src="logo-full.png" alt="Bridge Finance">
+    <a class="call" href="tel:0492949169">Call 0492 949 169</a>
+  </header>
+
+  <div class="wrap">
+    <div class="role">Mortgage broker &middot; Sydney</div>
+    <h1>Found a place you like? Send me the address before you offer.</h1>
+    <p class="dek">I'll pull the recent comparable sales and tell you what they suggest it's worth,
+      where I'd open, and where I'd stop. <b>No separate fee. No obligation.</b> Usually same day.</p>
+
+    <div class="whoRow">
+      <img src="william.png" alt="William Zhu">
+      <div class="t"><b>William Zhu</b> &middot; Mortgage Broker &amp; Director<br>
+        Five years in construction before broking, so I'll flag the build issues too.</div>
+    </div>
+
+    <form id="leadForm" autocomplete="on">
+      <label for="f_address">The property address</label>
+      <input type="text" id="f_address" name="address" placeholder="e.g. 28 Smith Street, Ryde" required>
+
+      <label>Are you pre-approved?</label>
+      <div class="opts" id="preOpts">
+        <label><input type="radio" name="preapproved" value="Yes" required><span>Yes</span></label>
+        <label><input type="radio" name="preapproved" value="Not yet, loan in progress"><span>Not yet, loan in progress</span></label>
+        <label><input type="radio" name="preapproved" value="Just starting out"><span>Just starting out</span></label>
+      </div>
+
+      <label>When do you want to make an offer?</label>
+      <div class="opts">
+        <label><input type="radio" name="timeline" value="This week" required><span>This week</span></label>
+        <label><input type="radio" name="timeline" value="This month"><span>This month</span></label>
+        <label><input type="radio" name="timeline" value="Just looking for now"><span>Just looking</span></label>
+      </div>
+
+      <label for="f_name">Your name</label>
+      <input type="text" id="f_name" name="name" autocomplete="name" required>
+
+      <label for="f_mobile">Your mobile</label>
+      <input type="tel" id="f_mobile" name="mobile" autocomplete="tel" inputmode="tel" required>
+
+      <button type="submit" id="sendBtn">Send it to William</button>
+      <p class="micro">Your details go to William only, and only for this. No mailing lists.</p>
+    </form>
+
+    <div class="done" id="doneBox">
+      <h2>Got it.</h2>
+      <p>The address is with me. You'll hear back the same day, usually within a few hours.<br><br>
+        If it's urgent, <a href="tel:0492949169">call or text 0492 949 169</a>.</p>
+    </div>
+
+    <div class="expect">
+      <h3>What comes back</h3>
+      <ul>
+        <li>What it's worth, backed by recent comparable sales</li>
+        <li>What it last sold for, and what's changed since</li>
+        <li>Build issues I'd want checked, from 5 years in construction</li>
+        <li>The number I'd open at, and the one I'd stop at</li>
+      </ul>
+    </div>
+
+    <div class="notAgent">
+      <b>I'm a mortgage broker, not a buyer's agent.</b> I don't run your search or bid for you.
+      I do your home loan, and the price check comes with it. A full buyer's agent in Sydney
+      charges $8,000 to $20,000 and does a lot more than this.
+    </div>
+  </div>
+
+  <footer>
+    William Zhu &middot; Bridge Finance &middot; Credit Rep No. 567817 | MFAA Member<br>
+    General information only, never personal credit advice. Any figures are examples, not valuations.<br>
+    0492 949 169 &middot; williamzhu@bridge-finance.com.au
+  </footer>
+
+  <script>
+    // Backend: native Google Form in William's account. Filled in by the build script.
+    var FORM_ID = '1FAIpQLSe2HWxbuz3quWOd3UCQWBl1kCNyOJxzQ_JYcmD1Ji0xRspHLw';
+    var ENTRY = { address: '1592444261', name: '1665033656', mobile: '1878527890',
+                  preapproved: '676423370', timeline: '444686215' };
+
+    document.getElementById('leadForm').addEventListener('submit', function (ev) {
+      ev.preventDefault();
+      var f = ev.target;
+      var btn = document.getElementById('sendBtn');
+      btn.disabled = true; btn.textContent = 'Sending...';
+
+      var data = new FormData();
+      data.append('entry.' + ENTRY.address, f.address.value);
+      data.append('entry.' + ENTRY.name, f.name.value);
+      data.append('entry.' + ENTRY.mobile, f.mobile.value);
+      data.append('entry.' + ENTRY.preapproved, f.preapproved.value);
+      data.append('entry.' + ENTRY.timeline, f.timeline.value);
+
+      var finish = function () {
+        f.style.display = 'none';
+        document.getElementById('doneBox').style.display = 'block';
+        if (typeof fbq === 'function') fbq('track', 'Lead');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      };
+
+      if (FORM_ID.indexOf('__') === 0) {
+        // endpoint not wired yet: fall back to a prefilled SMS so the lead is never lost
+        var body = 'Hi William, address for a price check: ' + f.address.value +
+                   '. Pre-approved: ' + f.preapproved.value + '. ' + f.name.value;
+        window.location.href = 'sms:0492949169?&body=' + encodeURIComponent(body);
+        btn.disabled = false; btn.textContent = 'Send it to William';
+        return;
+      }
+
+      fetch('https://docs.google.com/forms/d/e/' + FORM_ID + '/formResponse',
+            { method: 'POST', mode: 'no-cors', body: data })
+        .then(finish)
+        .catch(finish); // no-cors always opaque; treat as sent, William also gets the email
+    });
+  </script>
+</body>
+</html>
