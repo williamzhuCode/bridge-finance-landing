@@ -148,6 +148,14 @@ var FORM_ID = '1FAIpQLSe2HWxbuz3quWOd3UCQWBl1kCNyOJxzQ_JYcmD1Ji0xRspHLw';
 var ENTRY = { address: '1592444261', name: '1665033656', mobile: '1878527890', preapproved: '676423370', timeline: '444686215' };
 var val = function (id) { var el = document.getElementById(id); return el ? el.value.trim() : ''; };
 var pick = function (n) { var el = document.querySelector('input[name="' + n + '"]:checked'); return el ? el.value : ''; };
+// Which ad sent this visit: every ad link carries utm_campaign + utm_content (the ad key). Added to the end of the lead summary.
+var tagNote = (function () {
+  var q; try { q = new URLSearchParams(location.search); } catch (e) { return function () { return ''; }; }
+  var clean = function (s) { return String(s || '').replace(/[^A-Za-z0-9_.|-]/g, '').slice(0, 60); };
+  var c = clean(q.get('utm_campaign')), a = clean(q.get('utm_content'));
+  var note = (c || a) ? ' [campaign: ' + (c || '-') + '; ad: ' + (a || '-') + ']' : '';
+  return function () { return note; };
+})();
 document.getElementById('nextBtn').addEventListener('click', function () {
   document.querySelector('.s1').style.display = 'none'; document.querySelector('.s2').style.display = 'block';
   var n = document.getElementById('nm'); if (n) n.focus();
@@ -157,7 +165,7 @@ document.getElementById('f').addEventListener('submit', function (ev) {
   ev.preventDefault();
   var btn = document.getElementById('sendBtn'); btn.disabled = true; btn.textContent = 'Sending...';
   var data = new FormData();
-  data.append('entry.' + ENTRY.address, '[NO-LMI] deposit: ' + pick('dep') + '; family guarantee: ' + pick('fam') + '; job: ' + val('job'));
+  data.append('entry.' + ENTRY.address, '[NO-LMI] deposit: ' + pick('dep') + '; family guarantee: ' + pick('fam') + '; job: ' + val('job') + tagNote());
   data.append('entry.' + ENTRY.preapproved, pick('dep'));
   data.append('entry.' + ENTRY.timeline, pick('fam'));
   data.append('entry.' + ENTRY.name, val('nm'));
