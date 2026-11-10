@@ -1,235 +1,193 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Send me the address | Bridge Finance</title>
-  <meta name="description" content="Found a place you like? Send William the address before you make an offer. Free comparable-sales check from your mortgage broker. Sydney.">
-  <link rel="icon" href="logo-icon.jpg">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet">
-  <style>
-    :root {
-      --navy: #2D4070;
-      --yellow: #F5E27A;
-      --yellow-dark: #e8d05a;
-      --ink: #15181D;
-      --mid: #5C626D;
-      --line: #E3E6EB;
-    }
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font-family: 'Inter', sans-serif; color: var(--ink); background: #fff; }
-
-    header {
-      background: var(--navy); padding: 14px 20px;
-      display: flex; align-items: center; justify-content: space-between;
-    }
-    header img { height: 38px; }
-    header a.call {
-      background: var(--yellow); color: var(--navy); text-decoration: none;
-      font-weight: 700; font-size: 14px; padding: 9px 16px; border-radius: 24px; white-space: nowrap;
-    }
-    header a.call:hover { background: var(--yellow-dark); }
-
-    .wrap { max-width: 640px; margin: 0 auto; padding: 36px 22px 60px; }
-    .role {
-      font-size: 12px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase;
-      color: var(--mid); margin-bottom: 14px;
-    }
-    h1 {
-      font-family: 'Playfair Display', serif; font-size: clamp(30px, 6vw, 42px);
-      line-height: 1.15; color: var(--navy); margin-bottom: 14px;
-    }
-    .dek { font-size: 17px; line-height: 1.55; color: var(--mid); margin-bottom: 8px; }
-    .dek b { color: var(--ink); }
-
-    .whoRow { display: flex; gap: 14px; align-items: center; margin: 22px 0 26px; }
-    .whoRow img { width: 62px; height: 62px; border-radius: 50%; object-fit: cover; object-position: center 18%; }
-    .whoRow .t { font-size: 14px; line-height: 1.45; color: var(--mid); }
-    .whoRow .t b { color: var(--navy); }
-    .whoRow .gRating { display: inline-block; margin-top: 4px; font-size: 13px; font-weight: 600; color: var(--ink); }
-    .whoRow .stars { color: var(--yellow-dark); letter-spacing: 1px; }
-
-    form { border: 1px solid var(--line); border-radius: 16px; padding: 22px 20px 24px; }
-    label { display: block; font-size: 14px; font-weight: 600; margin: 16px 0 6px; }
-    label:first-of-type { margin-top: 0; }
-    input[type="text"], input[type="tel"] {
-      width: 100%; font: inherit; font-size: 16px; padding: 13px 14px;
-      border: 1.5px solid var(--line); border-radius: 10px; outline: none;
-    }
-    input:focus { border-color: var(--navy); }
-    .opts { display: flex; flex-wrap: wrap; gap: 8px; align-items: stretch; }
-    .opts label { display: inline-flex; margin: 0; }
-    .opts input { position: absolute; opacity: 0; pointer-events: none; }
-    .opts span {
-      display: inline-flex; align-items: center; padding: 10px 14px; border: 1.5px solid var(--line);
-      border-radius: 24px; font-size: 14px; font-weight: 500; line-height: 1.2; cursor: pointer;
-      user-select: none; white-space: nowrap;
-    }
-    .opts input:checked + span { background: var(--navy); color: #fff; border-color: var(--navy); }
-    button {
-      width: 100%; margin-top: 22px; font: inherit; font-size: 17px; font-weight: 800;
-      background: var(--yellow); color: var(--navy); border: 0; border-radius: 12px;
-      padding: 16px; cursor: pointer;
-    }
-    button:hover { background: var(--yellow-dark); }
-    button:disabled { opacity: .6; cursor: default; }
-    .micro { font-size: 12.5px; color: var(--mid); margin-top: 12px; line-height: 1.5; }
-
-    .done { display: none; border: 1px solid var(--line); border-radius: 16px; padding: 28px 22px; text-align: center; }
-    .done h2 { font-family: 'Playfair Display', serif; color: var(--navy); font-size: 26px; margin-bottom: 10px; }
-    .done p { font-size: 15px; color: var(--mid); line-height: 1.55; }
-    .done a { color: var(--navy); font-weight: 700; }
-
-    .expect { margin: 30px 0 0; }
-    .expect h3 { font-size: 14px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--navy); margin-bottom: 12px; }
-    .expect ul { list-style: none; }
-    .expect li { position: relative; padding-left: 26px; margin-bottom: 9px; font-size: 15px; line-height: 1.5; color: var(--ink); }
-    .expect li:before {
-      content: '✓'; position: absolute; left: 0; top: 0;
-      color: var(--navy); font-weight: 800;
-    }
-    .notAgent {
-      margin-top: 26px; padding: 14px 16px; background: #F7F8FA; border-radius: 12px;
-      font-size: 13.5px; line-height: 1.55; color: var(--mid);
-    }
-    .notAgent b { color: var(--ink); }
-
-    footer {
-      border-top: 1px solid var(--line); margin-top: 20px; padding: 22px;
-      text-align: center; font-size: 12px; color: #8A9099; line-height: 1.6;
-    }
-  </style>
-  <!-- Meta Pixel: Bridge Finance Website -->
-  <script>
-    !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-    n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
-    n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
-    t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
-    document,'script','https://connect.facebook.net/en_US/fbevents.js');
-    fbq('init', '1103203178805326');
-    fbq('track', 'PageView');
-  </script>
-  <noscript><img height="1" width="1" style="display:none"
-    src="https://www.facebook.com/tr?id=1103203178805326&ev=PageView&noscript=1"/></noscript>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Send me the address | Bridge Finance</title>
+<link rel="icon" href="logo-icon.jpg">
+<meta name="description" content="Found a place? Send William the address before you offer. Free property research from your Sydney mortgage broker.">
+<!-- v2 LIVE 10 Nov 2026 (approved by William). Rebuilt from the Sabri Suby + Hormozi/ThrillX landing-page studies.
+     Review count 87 checked live on Google 10 Nov 2026 - re-check before going live.
+     Before going live: the form posts to the SAME Google Form
+     as the live page - test with a row marked TEST, then delete it. -->
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=Caveat:wght@700&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#1D3557;--yel:#FADB4F;--ink:#16202E;--mid:#55606F;--line:#E3E6EB;--paper:#FAF7EF;--red:#D62F2F}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:Archivo,Arial,sans-serif;color:var(--ink);background:#fff;-webkit-font-smoothing:antialiased}
+header{background:var(--navy);padding:12px 18px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:5}
+header img{height:34px}
+header a{background:var(--yel);color:var(--navy);text-decoration:none;font-weight:800;font-size:14px;padding:9px 14px;border-radius:24px;white-space:nowrap}
+.wrap{max-width:620px;margin:0 auto;padding:0 20px}
+.hero{padding:22px 0 8px}
+.proofchip{display:inline-flex;flex-wrap:wrap;gap:6px 10px;align-items:center;font-size:13px;font-weight:700;color:var(--ink);background:#F2F4F7;border-radius:999px;padding:7px 12px}
+.proofchip .st{color:#E8B400;letter-spacing:1px}
+h1{font-size:clamp(34px,9vw,48px);line-height:1.02;font-weight:900;letter-spacing:-.02em;color:var(--navy);margin:14px 0 12px}
+.strap{display:inline-block;background:var(--yel);color:var(--navy);font-weight:800;font-size:17px;line-height:1.3;padding:7px 11px;margin-bottom:12px}
+.dek{font-size:17px;line-height:1.5;color:var(--mid)}
+.dek b{color:var(--ink)}
+.who{display:flex;gap:12px;align-items:center;margin:16px 0 4px}
+.who img{width:54px;height:54px;border-radius:50%;object-fit:cover;object-position:center 18%;background:var(--yel)}
+.who p{font-size:14px;line-height:1.4;color:var(--mid)}.who b{color:var(--navy)}
+form{background:#fff;border:2px solid var(--navy);border-radius:16px;padding:18px 16px 18px;margin:18px 0 6px;box-shadow:0 8px 24px rgba(29,53,87,.10)}
+label{display:block;font-size:14px;font-weight:700;margin:12px 0 6px}label:first-child{margin-top:0}
+input[type=text],input[type=tel]{width:100%;font:inherit;font-size:16px;padding:13px 14px;border:1.5px solid var(--line);border-radius:10px;outline:none}
+input:focus{border-color:var(--navy)}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+details.more{margin-top:12px;font-size:14px;color:var(--mid)}details.more summary{cursor:pointer;font-weight:700;color:var(--navy)}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+.chips input{display:none}.chips label{margin:0;font-weight:600;font-size:14px;border:1.5px solid var(--line);border-radius:999px;padding:9px 13px;cursor:pointer}
+.chips input:checked+label{background:var(--navy);color:#fff;border-color:var(--navy)}
+button{width:100%;margin-top:16px;background:var(--navy);color:#fff;border:0;border-radius:12px;font:800 18px Archivo;padding:16px}
+.under{display:flex;flex-wrap:wrap;justify-content:center;gap:4px 14px;font-size:13px;color:var(--mid);margin-top:10px}
+.under span:before{content:'\2713 ';color:#1E8E3E;font-weight:800}
+.ok{display:none;text-align:center;padding:10px 0}.ok h3{font-size:24px;color:var(--navy)}.ok p{color:var(--mid);margin-top:6px}
+section{padding:34px 0 6px}
+h2{font-size:28px;line-height:1.1;font-weight:900;color:var(--navy);letter-spacing:-.01em;margin-bottom:14px}
+.sheet{background:#fff;border:1px solid var(--line);box-shadow:0 10px 26px rgba(0,0,0,.10);padding:16px 18px;transform:rotate(-1deg);position:relative}
+.sheet .h{display:flex;justify-content:space-between;font-size:12px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:#4A5568;padding-bottom:10px;border-bottom:2px solid var(--line)}
+.sheet .h span{color:var(--red);border:2px solid var(--red);padding:1px 6px}
+.sheet .r{display:flex;justify-content:space-between;gap:10px;font-size:15px;padding:10px 0;border-bottom:1px solid #EEF0F3}
+.sheet .r i{font-style:normal;color:var(--mid)}.sheet .r b{background:var(--yel);padding:0 4px}
+.sheet .hand{position:absolute;right:14px;bottom:-26px;font:700 28px Caveat;color:var(--red);transform:rotate(-4deg)}
+ul.gets{list-style:none;margin-top:30px}ul.gets li{padding:9px 0 9px 28px;position:relative;font-size:16px;line-height:1.4;border-bottom:1px solid #F0F2F5}
+ul.gets li:before{content:'\2713';position:absolute;left:4px;color:#1E8E3E;font-weight:900}
+.steps{display:grid;gap:10px}.step{display:flex;gap:14px;align-items:flex-start;background:var(--paper);border-radius:12px;padding:14px}
+.step b{flex:none;width:34px;height:34px;border-radius:50%;background:var(--navy);color:var(--yel);display:flex;align-items:center;justify-content:center;font-weight:900}
+.step p{font-size:16px;line-height:1.4}.step p strong{display:block;color:var(--navy)}
+.reviews{display:grid;gap:12px}
+.rv{border:1px solid var(--line);border-radius:12px;padding:14px 16px}.rv .st{color:#E8B400;letter-spacing:2px}
+.rv p{font-size:16px;line-height:1.45;margin:6px 0}.rv small{color:var(--mid);font-size:13px}
+.more-link{display:inline-block;margin-top:12px;font-weight:700;color:var(--navy)}
+.cta2{display:block;text-align:center;background:var(--yel);color:var(--navy);text-decoration:none;font-weight:900;font-size:18px;padding:15px;border-radius:12px;margin:22px 0 4px}
+.faq details{border-bottom:1px solid var(--line);padding:14px 0}.faq summary{font-weight:800;font-size:17px;color:var(--navy);cursor:pointer}
+.faq p{margin-top:8px;font-size:16px;line-height:1.5;color:var(--mid)}
+footer{background:#F4F5F7;margin-top:34px;padding:22px 20px 40px;font-size:12.5px;line-height:1.55;color:var(--mid)}
+footer .wrap{padding:0}
+</style>
+<!-- Meta Pixel: Bridge Finance Website -->
+<script>
+!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+document,'script','https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '1103203178805326');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=1103203178805326&ev=PageView&noscript=1"/></noscript>
 </head>
 <body>
-  <header>
-    <img src="logo-reverse.png" alt="Bridge Finance">
-    <a class="call" href="tel:0492949169">Call 0492 949 169</a>
-  </header>
+<header><img src="logo-reverse.png" alt="Bridge Finance"><a href="tel:0492949169">Call 0492 949 169</a></header>
 
-  <div class="wrap">
-    <div class="role">Mortgage broker &middot; Sydney</div>
-    <h1>Found a place you like? Send me the address before you offer.</h1>
-    <p class="dek">I'll pull the recent comparable sales and tell you what they suggest it's worth,
-      where I'd open, and where I'd stop. <b>No separate fee. No obligation.</b> Usually same day.</p>
-
-    <div class="whoRow">
-      <img src="william.png" alt="William Zhu">
-      <div class="t"><b>William Zhu</b> &middot; Mortgage Broker &amp; Director<br>
-        A lender for the last 8 years. I've helped my clients win their offers at a great price.<br>
-        <span class="gRating"><span class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span> 5.0 on Google &middot; 82 reviews</span></div>
-    </div>
-
-    <form id="leadForm" autocomplete="on">
-      <label for="f_address">The property address</label>
-      <input type="text" id="f_address" name="address" placeholder="e.g. 28 Smith Street, Ryde" required>
-
-      <label>Are you pre-approved?</label>
-      <div class="opts" id="preOpts">
-        <label><input type="radio" name="preapproved" value="Yes" required><span>Yes</span></label>
-        <label><input type="radio" name="preapproved" value="Not yet, loan in progress"><span>Not yet, loan in progress</span></label>
-        <label><input type="radio" name="preapproved" value="Just starting out"><span>Just starting out</span></label>
-      </div>
-
-      <label>When do you want to make an offer?</label>
-      <div class="opts">
-        <label><input type="radio" name="timeline" value="This week" required><span>This week</span></label>
-        <label><input type="radio" name="timeline" value="This month"><span>This month</span></label>
-        <label><input type="radio" name="timeline" value="Just looking for now"><span>Just looking</span></label>
-      </div>
-
-      <label for="f_name">Your name</label>
-      <input type="text" id="f_name" name="name" autocomplete="name" required>
-
-      <label for="f_mobile">Your mobile</label>
-      <input type="tel" id="f_mobile" name="mobile" autocomplete="tel" inputmode="tel" required>
-
-      <button type="submit" id="sendBtn">Send it to William</button>
-      <p class="micro">Your details go to William only, and only for this. No mailing lists.</p>
-    </form>
-
-    <div class="done" id="doneBox">
-      <h2>Got it.</h2>
-      <p>The address is with me. You'll hear back the same day, usually within a few hours.<br><br>
-        If it's urgent, <a href="tel:0492949169">call or text 0492 949 169</a>.</p>
-    </div>
-
-    <div class="expect">
-      <h3>What comes back</h3>
-      <ul>
-        <li>What it's worth, backed by recent comparable sales</li>
-        <li>What it last sold for, and what's changed since</li>
-        <li>The things I'd get checked before you sign anything</li>
-        <li>The number I'd open at, and the one I'd stop at</li>
-      </ul>
-    </div>
-
-    <div class="notAgent">
-      <b>I'm a mortgage broker, not a buyer's agent.</b> I don't run your search or bid for you.
-      I do your home loan, and the price check comes with it. A full buyer's agent in Sydney
-      charges $8,000 to $20,000 and does a lot more than this.
-    </div>
+<div class="wrap">
+  <div class="hero">
+    <div class="proofchip"><span class="st">&#9733;&#9733;&#9733;&#9733;&#9733;</span> 5.0 &middot; 87 Google reviews &middot; Thousands of analyses done</div>
+    <h1>Found a place? Send me the address.</h1>
+    <div class="strap">The mortgage broker who also does your property research.</div>
+    <p class="dek">I&rsquo;ll show you <b>what sold nearby</b>, what it last sold for, and what to check before you offer. <b>Free</b> - lenders pay me when your loan settles. Usually same day.</p>
+    <div class="who"><img src="william.png" alt="William Zhu"><p><b>William Zhu</b> &middot; Mortgage broker, Sydney<br>Over $600M in lifetime lending across banking and broking.</p></div>
   </div>
 
-  <footer>
-    William Zhu &middot; Bridge Finance &middot; Credit Rep No. 567817 | MFAA Member<br>
-    General information only, never personal credit advice. Any figures are examples, not valuations.<br>
-    0492 949 169 &middot; williamzhu@bridge-finance.com.au
-  </footer>
+  <form id="f" autocomplete="on">
+    <label for="addr">The property address</label>
+    <input id="addr" type="text" placeholder="e.g. 28 Smith Street, Ryde" required>
+    <div class="row2">
+      <div><label for="nm">Your name</label><input id="nm" type="text" required></div>
+      <div><label for="mb">Mobile</label><input id="mb" type="tel" inputmode="tel" required></div>
+    </div>
+    <details class="more"><summary>Optional: help me prepare (2 quick taps)</summary>
+      <label>Pre-approved?</label>
+      <div class="chips"><input type="radio" name="pa" id="pa1" value="Yes"><label for="pa1">Yes</label><input type="radio" name="pa" id="pa2" value="Not yet, loan in progress"><label for="pa2">In progress</label><input type="radio" name="pa" id="pa3" value="Just starting out"><label for="pa3">Just starting</label></div>
+      <label>Offer timing</label>
+      <div class="chips"><input type="radio" name="tl" id="tl1" value="This week"><label for="tl1">This week</label><input type="radio" name="tl" id="tl2" value="This month"><label for="tl2">This month</label><input type="radio" name="tl" id="tl3" value="Just looking"><label for="tl3">Just looking</label></div>
+    </details>
+    <button type="submit" id="sendBtn">Send it to William &rarr;</button>
+    <div class="under"><span>Free</span><span>No obligation</span><span>Your details go to William only</span></div>
+    <div class="ok" id="ok"><h3>Got it.</h3><p>I&rsquo;ll text you today. If it&rsquo;s urgent, call 0492 949 169.</p></div>
+  </form>
 
-  <script>
-    // Backend: native Google Form in William's account. Filled in by the build script.
-    var FORM_ID = '1FAIpQLSe2HWxbuz3quWOd3UCQWBl1kCNyOJxzQ_JYcmD1Ji0xRspHLw';
-    var ENTRY = { address: '1592444261', name: '1665033656', mobile: '1878527890',
-                  preapproved: '676423370', timeline: '444686215' };
+  <section>
+    <h2>What comes back</h2>
+    <div class="sheet"><div class="h">Recent sales near the address <span>EXAMPLE</span></div>
+      <div class="r"><span>3 bed house</span><i>540 m&sup2; &middot; Aug</i><b>$1.18m</b></div>
+      <div class="r"><span>3 bed house</span><i>610 m&sup2; &middot; Jul</i><b>$1.21m</b></div>
+      <div class="r"><span>3 bed house</span><i>655 m&sup2; &middot; Jun</i><b>$1.24m</b></div>
+      <div class="hand">what sold nearby</div></div>
+    <ul class="gets">
+      <li>Recent comparable sales near the address</li>
+      <li>What it last sold for, and what&rsquo;s changed since</li>
+      <li>The things I&rsquo;d get checked before you sign</li>
+      <li>Whether your pre-approval still fits the price</li>
+    </ul>
+  </section>
 
-    document.getElementById('leadForm').addEventListener('submit', function (ev) {
-      ev.preventDefault();
-      var f = ev.target;
-      var btn = document.getElementById('sendBtn');
-      btn.disabled = true; btn.textContent = 'Sending...';
+  <section>
+    <h2>How it works</h2>
+    <div class="steps">
+      <div class="step"><b>1</b><p><strong>Send the address</strong>Takes 30 seconds, from the listing you&rsquo;re looking at.</p></div>
+      <div class="step"><b>2</b><p><strong>I pull the recent sales</strong>Usually the same day. I&rsquo;ll text if I need anything.</p></div>
+      <div class="step"><b>3</b><p><strong>You decide</strong>Make your offer knowing what sold nearby. No obligation either way.</p></div>
+    </div>
+  </section>
 
-      var data = new FormData();
-      data.append('entry.' + ENTRY.address, f.address.value);
-      data.append('entry.' + ENTRY.name, f.name.value);
-      data.append('entry.' + ENTRY.mobile, f.mobile.value);
-      data.append('entry.' + ENTRY.preapproved, f.preapproved.value);
-      data.append('entry.' + ENTRY.timeline, f.timeline.value);
+  <section>
+    <h2>What buyers say</h2>
+    <div class="reviews">
+      <div class="rv"><span class="st">&#9733;&#9733;&#9733;&#9733;&#9733;</span><p>&ldquo;He also helped me with property reports, which gave me a much better understanding of how different properties compared in terms of value.&rdquo;</p><small>Christina &middot; Google review</small></div>
+      <div class="rv"><span class="st">&#9733;&#9733;&#9733;&#9733;&#9733;</span><p>&ldquo;...take nervous Sunday night phone calls and ensure the whole process was smooth, can&rsquo;t thank him enough.&rdquo;</p><small>Cameron &middot; Google review</small></div>
+      <div class="rv"><span class="st">&#9733;&#9733;&#9733;&#9733;&#9733;</span><p>&ldquo;...he provided his suggestion, strategies and advice - which was extremely useful in procuring our property!&rdquo;</p><small>Prath &middot; Google review</small></div>
+      <div class="rv"><span class="st">&#9733;&#9733;&#9733;&#9733;&#9733;</span><p>&ldquo;He was quick to respond to any questions or contact we made, regardless of the day, time, or even public holidays.&rdquo;</p><small>Madison &middot; Google review</small></div>
+    </div>
+    <a class="more-link" href="https://www.google.com/maps/place/Bridge+Finance+-+Mortgage+Broker/data=!4m2!3m1!1s0x0:0xff121e95405fa1ff">Read all reviews on Google &rarr;</a>
+    <a class="cta2" href="#f">Send me the address &rarr;</a>
+  </section>
 
-      var finish = function () {
-        f.style.display = 'none';
-        document.getElementById('doneBox').style.display = 'block';
-        if (typeof fbq === 'function') fbq('track', 'Lead');
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-      };
+  <section class="faq">
+    <h2>Questions people ask</h2>
+    <details open><summary>Is it really free?</summary><p>Yes. Lenders pay me a commission when your loan settles, so you don&rsquo;t pay me for the loan or the research. I&rsquo;ll show you what I&rsquo;m paid before you sign anything.</p></details>
+    <details><summary>Do I have to do my loan with you?</summary><p>No. There&rsquo;s no obligation. If you do your home loan with me, the property research comes with it.</p></details>
+    <details><summary>Is this a valuation?</summary><p>No. It&rsquo;s my opinion from recent sales, not a formal valuation. A lender&rsquo;s valuation can come in differently.</p></details>
+    <details><summary>Are you a buyer&rsquo;s agent?</summary><p>No. I don&rsquo;t search, negotiate or bid for you. A full buyer&rsquo;s agent in Sydney typically charges $8,000 to $20,000 and does a lot more than this.</p></details>
+    <details><summary>How fast will I hear back?</summary><p>Usually the same day. If you&rsquo;re bidding this week, say so in the form or call me.</p></details>
+    <details><summary>What happens to my details?</summary><p>They go to me only, and only for this. No mailing lists.</p></details>
+    <a class="cta2" href="#f">Send me the address &rarr;</a>
+  </section>
+</div>
 
-      if (FORM_ID.indexOf('__') === 0) {
-        // endpoint not wired yet: fall back to a prefilled SMS so the lead is never lost
-        var body = 'Hi William, address for a price check: ' + f.address.value +
-                   '. Pre-approved: ' + f.preapproved.value + '. ' + f.name.value;
-        window.location.href = 'sms:0492949169?&body=' + encodeURIComponent(body);
-        btn.disabled = false; btn.textContent = 'Send it to William';
-        return;
-      }
+<footer><div class="wrap">
+  William Zhu &middot; Bridge Finance &middot; Credit Rep No. 567817 | MFAA Member<br>
+  General information only, never personal credit advice. Sales shown are an example, not real sales. Property research is my opinion from recent sales, not a valuation.<br>
+  0492 949 169 &middot; williamzhu@bridge-finance.com.au
+</div></footer>
 
-      fetch('https://docs.google.com/forms/d/e/' + FORM_ID + '/formResponse',
-            { method: 'POST', mode: 'no-cors', body: data })
-        .then(finish)
-        .catch(finish); // no-cors always opaque; treat as sent, William also gets the email
-    });
-  </script>
+<script>
+// Backend: native Google Form in William's account (same form and entry ids as the 31 Aug 2026 build).
+var FORM_ID = '1FAIpQLSe2HWxbuz3quWOd3UCQWBl1kCNyOJxzQ_JYcmD1Ji0xRspHLw';
+var ENTRY = { address: '1592444261', name: '1665033656', mobile: '1878527890', preapproved: '676423370', timeline: '444686215' };
+document.getElementById('f').addEventListener('submit', function (ev) {
+  ev.preventDefault();
+  var btn = document.getElementById('sendBtn');
+  btn.disabled = true; btn.textContent = 'Sending...';
+  var val = function (id) { return document.getElementById(id).value.trim(); };
+  var pick = function (n) { var el = document.querySelector('input[name="' + n + '"]:checked'); return el ? el.value : ''; };
+  var data = new FormData();
+  data.append('entry.' + ENTRY.address, val('addr'));
+  data.append('entry.' + ENTRY.name, val('nm'));
+  data.append('entry.' + ENTRY.mobile, val('mb'));
+  data.append('entry.' + ENTRY.preapproved, pick('pa'));
+  data.append('entry.' + ENTRY.timeline, pick('tl'));
+  var finish = function () {
+    document.querySelectorAll('#f > :not(#ok)').forEach(function (el) { el.style.display = 'none'; });
+    document.getElementById('ok').style.display = 'block';
+    if (typeof fbq === 'function') fbq('track', 'Lead');
+    document.getElementById('f').scrollIntoView({ behavior: 'smooth', block: 'center' });
+  };
+  fetch('https://docs.google.com/forms/d/e/' + FORM_ID + '/formResponse', { method: 'POST', mode: 'no-cors', body: data })
+    .then(finish)
+    .catch(finish); // no-cors is always opaque; the form also emails William
+});
+</script>
 </body>
 </html>
