@@ -166,8 +166,6 @@ document.getElementById('f').addEventListener('submit', function (ev) {
   var btn = document.getElementById('sendBtn'); btn.disabled = true; btn.textContent = 'Sending...';
   var data = new FormData();
   data.append('entry.' + ENTRY.address, '[NO-LMI] deposit: ' + pick('dep') + '; family guarantee: ' + pick('fam') + '; job: ' + val('job') + tagNote());
-  data.append('entry.' + ENTRY.preapproved, pick('dep'));
-  data.append('entry.' + ENTRY.timeline, pick('fam'));
   data.append('entry.' + ENTRY.name, val('nm'));
   data.append('entry.' + ENTRY.mobile, val('mb'));
   var finish = function () {

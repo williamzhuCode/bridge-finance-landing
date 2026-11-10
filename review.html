@@ -173,8 +173,6 @@ document.getElementById('f').addEventListener('submit', function (ev) {
   var btn = document.getElementById('sendBtn'); btn.disabled = true; btn.textContent = 'Sending...';
   var data = new FormData();
   data.append('entry.' + ENTRY.address, '[REFI] lender: ' + val('lender') + '; owes: ' + pick('owe') + '; last reviewed: ' + pick('rev') + tagNote());
-  data.append('entry.' + ENTRY.preapproved, pick('owe'));
-  data.append('entry.' + ENTRY.timeline, pick('rev'));
   data.append('entry.' + ENTRY.name, val('nm'));
   data.append('entry.' + ENTRY.mobile, val('mb'));
   var finish = function () {
